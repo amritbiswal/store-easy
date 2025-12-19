@@ -1,43 +1,62 @@
-import React, { createContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect } from 'react';
 
-export const AuthContext = createContext();
+const AuthContext = createContext();
 
-// export const useAuth = () => {
-//   const context = React.useContext(AuthContext);
-//   if (context === undefined) {
-//     throw new Error("useAuth must be used within an AuthProvider");
-//   }
-//   return context;
-// };
+export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    const unsubscribe =
-      // logic to check user authentication state changes
-      (newUser) => {
-        setUser(newUser);
-      };
-    setLoading(false);
-    return () => unsubscribe();
+    // Check for stored user on mount
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+      setIsAuthenticated(true);
+    }
   }, []);
 
   const login = async (email, password) => {
-    // logic for user login
+    try {
+      // Check admins
+      const adminResponse = await fetch(`http://localhost:5005/admins?email=${email}&password=${password}`);
+      const admins = await adminResponse.json();
+
+      if (admins.length > 0) {
+        const admin = admins[0];
+        setUser(admin);
+        setIsAuthenticated(true);
+        localStorage.setItem('user', JSON.stringify(admin));
+        return { success: true, user: admin };
+      }
+
+      // Check customers
+      const customerResponse = await fetch(`http://localhost:5005/customers?email=${email}&password=${password}`);
+      const customers = await customerResponse.json();
+
+      if (customers.length > 0) {
+        const customer = customers[0];
+        setUser(customer);
+        setIsAuthenticated(true);
+        localStorage.setItem('user', JSON.stringify(customer));
+        return { success: true, user: customer };
+      }
+
+      return { success: false, message: 'Invalid credentials' };
+    } catch (error) {
+      return { success: false, message: 'Login failed' };
+    }
   };
 
-  const register = async (email, password) => {
-    // logic for user registration
-  };
-
-  const logout = async () => {
-    // logic for user logout
+  const logout = () => {
+    setUser(null);
+    setIsAuthenticated(false);
+    localStorage.removeItem('user');
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, logout }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

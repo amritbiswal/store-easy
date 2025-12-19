@@ -1,0 +1,52 @@
+.order-container {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.order-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.order-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.order-item {
+  padding: 15px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.order-item:last-child {
+  border-bottom: none;
+}
+
+.order-details {
+  display: flex;
+  justify-content: space-between;
+}
+
+.order-status {
+  font-weight: bold;
+}
+
+.order-date {
+  color: #888;
+}
+
+.order-total {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+.empty-orders {
+  text-align: center;
+  font-size: 18px;
+  color: #888;
+  margin-top: 20px;
+}

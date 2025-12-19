@@ -1,0 +1,54 @@
+/* Order Management Styles */
+
+.order-management {
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+.order-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.order-table th, .order-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+.order-table th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.order-status {
+    font-weight: bold;
+}
+
+.order-actions {
+    display: flex;
+    justify-content: space-between;
+}
+
+.button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.button-view {
+    background-color: #007BFF;
+    color: white;
+}
+
+.button-edit {
+    background-color: #FFC107;
+    color: white;
+}
+
+.button-delete {
+    background-color: #DC3545;
+    color: white;
+}

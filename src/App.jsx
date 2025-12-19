@@ -6,17 +6,17 @@ import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 
 // Customer Pages
-import Home from "./pages/customer/Home";
+import CustomerHome from "./pages/customer/Home";
 import ProductList from "./pages/customer/ProductList";
 import ProductDetail from "./pages/customer/ProductDetail";
 import Cart from "./pages/customer/Cart";
 import Checkout from "./pages/customer/Checkout";
-import Orders from "./pages/customer/Orders";
+import CustomerOrders from "./pages/customer/Orders";
 import Profile from "./pages/customer/Profile";
 import Favorites from "./pages/customer/Favorites";
 
 // Admin Pages
-import Dashboard from "./pages/admin/Dashboard";
+import AdminDashboard from "./pages/admin/dashboard";
 import ProductManagement from "./pages/admin/ProductManagement";
 import InventoryManagement from "./pages/admin/InventoryManagement";
 import OrderManagement from "./pages/admin/OrderManagement";
@@ -33,25 +33,25 @@ function App() {
       <BrowserRouter>
         <Routes>
           {/* Public Routes */}
-          {/* <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} /> */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
 
           {/* Customer Routes */}
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<CustomerHome />} />
           <Route path="/products" element={<ProductList />} />
           <Route path="/products/:id" element={<ProductDetail />} />
 
           <Route element={<CustomerRoute />}>
             <Route path="/cart" element={<Cart />} />
             <Route path="/checkout" element={<Checkout />} />
-            <Route path="/orders" element={<Orders />} />
+            <Route path="/orders" element={<CustomerOrders />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/favorites" element={<Favorites />} />
           </Route>
 
           {/* Admin Routes */}
           <Route element={<AdminRoute />}>
-            <Route path="/admin" element={<Dashboard />} />
+            <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/admin/products" element={<ProductManagement />} />
             <Route path="/admin/inventory" element={<InventoryManagement />} />
             <Route path="/admin/orders" element={<OrderManagement />} />
