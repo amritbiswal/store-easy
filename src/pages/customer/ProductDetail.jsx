@@ -115,7 +115,6 @@ const ProductDetail = () => {
 
   return (
     <div className="product-detail-page">
-      <Navbar />
 
       <div className="product-detail-container">
         {/* Image Gallery */}
@@ -264,8 +263,6 @@ const ProductDetail = () => {
           </div>
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 };

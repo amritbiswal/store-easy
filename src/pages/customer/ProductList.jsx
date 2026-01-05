@@ -86,7 +86,6 @@ const ProductList = () => {
 
   return (
     <div className="product-list-page">
-      <Navbar />
 
       <div className="page-container">
         <Sidebar
@@ -117,7 +116,6 @@ const ProductList = () => {
         </main>
       </div>
 
-      <Footer />
     </div>
   );
 };

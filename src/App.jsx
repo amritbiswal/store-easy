@@ -2,6 +2,10 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import { CartProvider } from "./context/CartContext";
 
+// Navbar and footer
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+
 // Auth Pages
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
@@ -33,6 +37,7 @@ function App() {
     <AuthProvider>
       <CartProvider>
         <BrowserRouter>
+        <Navbar /> 
           <Routes>
             {/* Public Routes */}
             <Route path="/login" element={<Login />} />
@@ -64,6 +69,7 @@ function App() {
             {/* Catch All */}
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
+        <Footer />
         </BrowserRouter>
       </CartProvider>
     </AuthProvider>
