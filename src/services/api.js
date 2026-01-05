@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // const API_URL = 'https://api.example.com'; // Replace with your actual API URL
-const API_URL = "http://localhost:5005"; // Local API URL for development
+const API_URL = "http://localhost:5005"; // Local API URL for json-server
 
 // Function to get all products
 export const getProducts = async () => {
@@ -60,5 +60,15 @@ export const loginUser = async (credentials) => {
     return response.data;
   } catch (error) {
     throw new Error("Error logging in user");
+  }
+};
+
+// Function to get all categories
+export const getCategories = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/categories`);
+    return response.data;
+  } catch (error) {
+    throw new Error("Error fetching categories");
   }
 };

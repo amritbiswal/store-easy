@@ -1,43 +1,211 @@
 .navbar {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
-  background-color: #333;
-  color: white;
 }
 
-.navbar .logo {
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
-.navbar .nav-links {
+/* Logo Styling */
+.navbar-brand .logo {
   display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 700;
+  transition: transform 0.3s ease;
+}
+
+.navbar-brand .logo:hover {
+  transform: scale(1.05);
+}
+
+.logo-icon {
+  font-size: 2rem;
+}
+
+.logo-text {
+  font-size: 1.5rem;
+  letter-spacing: 0.5px;
+}
+
+/* Navigation Links */
+.navbar-links {
+  display: flex;
+  list-style: none;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-links li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.navbar-links li a:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Navbar Actions */
+.navbar-actions {
+  display: flex;
+  align-items: center;
   gap: 1.5rem;
 }
 
-.navbar .nav-links a {
+/* Cart Link with Badge */
+.cart-link {
+  position: relative;
   color: white;
   text-decoration: none;
-  transition: color 0.3s;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
 }
 
-.navbar .nav-links a:hover {
-  color: #ff6347; /* Tomato color on hover */
+.cart-link:hover {
+  background-color: rgba(255, 255, 255, 0.2);
 }
 
-.navbar .auth-links {
+.cart-icon {
+  font-size: 1.8rem;
+}
+
+.cart-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: #ff4444;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 0.2rem 0.5rem;
+  border-radius: 50%;
+  min-width: 20px;
+  text-align: center;
+}
+
+/* User Menu */
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 25px;
+  background-color: rgba(255, 255, 255, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+.user-profile:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.user-icon {
+  font-size: 1.5rem;
+}
+
+.user-name {
+  font-weight: 500;
+}
+
+.logout-btn {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 2px solid white;
+  padding: 0.5rem 1.5rem;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+  background-color: white;
+  color: #667eea;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Auth Links */
+.auth-links {
   display: flex;
   gap: 1rem;
 }
 
-.navbar .auth-links a {
+.login-link,
+.register-link {
   color: white;
   text-decoration: none;
-  transition: color 0.3s;
+  padding: 0.5rem 1.5rem;
+  border-radius: 25px;
+  font-weight: 600;
+  transition: all 0.3s ease;
 }
 
-.navbar .auth-links a:hover {
-  color: #ff6347; /* Tomato color on hover */
+.login-link {
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 2px solid white;
+}
+
+.login-link:hover {
+  background-color: white;
+  color: #667eea;
+  transform: translateY(-2px);
+}
+
+.register-link {
+  background-color: white;
+  color: #667eea;
+  border: 2px solid white;
+}
+
+.register-link:hover {
+  background-color: transparent;
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .navbar-container {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .navbar-links {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+
+  .navbar-actions {
+    width: 100%;
+    justify-content: center;
+  }
 }
