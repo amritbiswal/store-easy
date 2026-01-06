@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import './Register.css';
 
 const Register = () => {
@@ -21,8 +22,8 @@ const Register = () => {
 
   return (
     <div className="register-container">
-      <h2>Register</h2>
       <form onSubmit={handleSubmit}>
+        <h2>Create Account</h2>
         <div className="form-group">
           <label htmlFor="username">Username</label>
           <input
@@ -32,6 +33,7 @@ const Register = () => {
             value={formData.username}
             onChange={handleChange}
             required
+            placeholder="Choose a username"
           />
         </div>
         <div className="form-group">
@@ -43,6 +45,7 @@ const Register = () => {
             value={formData.email}
             onChange={handleChange}
             required
+            placeholder="Enter your email"
           />
         </div>
         <div className="form-group">
@@ -54,9 +57,13 @@ const Register = () => {
             value={formData.password}
             onChange={handleChange}
             required
+            placeholder="Create a password"
           />
         </div>
-        <button type="submit">Register</button>
+        <button type="submit">Create Account</button>
+        <div className="login-link">
+          Already have an account? <Link to="/login">Sign in</Link>
+        </div>
       </form>
     </div>
   );

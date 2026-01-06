@@ -1,7 +1,7 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import { useCart } from '../context/CartContext';
-import './Navbar.css';
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { useCart } from "../context/CartContext";
+import "./Navbar.css";
 
 const Navbar = () => {
   const { user, logout } = useAuth();
@@ -10,11 +10,14 @@ const Navbar = () => {
 
   const handleLogout = () => {
     logout();
-    navigate('/');
+    navigate("/");
   };
 
   // Calculate total items in cart
-  const cartItemCount = cartItems.reduce((total, item) => total + (item.quantity || 1), 0);
+  const cartItemCount = cartItems.reduce(
+    (total, item) => total + (item.quantity || 1),
+    0
+  );
 
   return (
     <nav className="navbar">
@@ -22,7 +25,7 @@ const Navbar = () => {
         {/* Logo */}
         <div className="navbar-brand">
           <Link to="/" className="logo">
-            <span className="logo-icon">🛒</span>
+            <span className="logo-icon">👟</span>
             <span className="logo-text">StoreEasy</span>
           </Link>
         </div>
@@ -62,7 +65,9 @@ const Navbar = () => {
             <div className="user-menu">
               <Link to="/profile" className="user-profile">
                 <span className="user-icon">👤</span>
-                <span className="user-name">{user.firstName || user.username}</span>
+                <span className="user-name">
+                  {user.firstName || user.username}
+                </span>
               </Link>
               <button onClick={handleLogout} className="logout-btn">
                 Logout
@@ -70,8 +75,12 @@ const Navbar = () => {
             </div>
           ) : (
             <div className="auth-links">
-              <Link to="/login" className="login-link">Login</Link>
-              <Link to="/register" className="register-link">Register</Link>
+              <Link to="/login" className="login-link">
+                Login
+              </Link>
+              <Link to="/register" className="register-link">
+                Register
+              </Link>
             </div>
           )}
         </div>
