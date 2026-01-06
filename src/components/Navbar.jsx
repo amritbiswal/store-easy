@@ -1,12 +1,12 @@
-import { Link, useNavigate } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
 import "./Navbar.css";
 
 const Navbar = () => {
-  const { user, logout } = useAuth();
-  const { cartItems } = useCart();
+  const { user, isAuthenticated, isAdmin, logout } = useAuth();
   const navigate = useNavigate();
+  const { cartItems } = useCart();
 
   const handleLogout = () => {
     logout();
@@ -19,6 +19,20 @@ const Navbar = () => {
     0
   );
 
+  // Get user initials
+  const getUserInitials = () => {
+    if (user?.firstName && user?.lastName) {
+      return `${user.firstName[0]}${user.lastName[0]}`.toUpperCase();
+    }
+    if (user?.firstName) {
+      return user.firstName[0].toUpperCase();
+    }
+    if (user?.username) {
+      return user.username[0].toUpperCase();
+    }
+    return "U";
+  };
+  
   return (
     <nav className="navbar">
       <div className="navbar-container">
@@ -26,48 +40,92 @@ const Navbar = () => {
         <div className="navbar-brand">
           <Link to="/" className="logo">
             <span className="logo-icon">👟</span>
-            <span className="logo-text">StoreEasy</span>
+            <span className="logo-text">ShopEasy</span>
           </Link>
         </div>
 
         {/* Navigation Links */}
         <ul className="navbar-links">
           <li>
-            <Link to="/">Home</Link>
+            <NavLink
+              to="/"
+              className={({ isActive }) => (isActive ? "active" : "")}
+              end
+            >
+              Home
+            </NavLink>
           </li>
           <li>
-            <Link to="/products">Products</Link>
+            <NavLink
+              to="/products"
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
+              Products
+            </NavLink>
           </li>
-          {user && (
-            <>
-              <li>
-                <Link to="/orders">My Orders</Link>
-              </li>
-              <li>
-                <Link to="/favorites">Favorites</Link>
-              </li>
-            </>
+          <li>
+            <NavLink
+              to="/categories"
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
+              Categories
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/brands"
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
+              Brands
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/favorites"
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
+              Favorites
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/orders"
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
+              Orders
+            </NavLink>
+          </li>
+          {isAdmin && (
+            <li>
+              <NavLink
+                to="/admin"
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                Admin
+              </NavLink>
+            </li>
           )}
         </ul>
 
-        {/* Right Side Actions */}
+        {/* Navbar Actions */}
         <div className="navbar-actions">
-          {/* Cart with Badge */}
-          <Link to="/cart" className="cart-link">
+          {/* Cart */}
+          <NavLink
+            to="/cart"
+            className={({ isActive }) =>
+              `cart-link ${isActive ? "active" : ""}`
+            }
+          >
             <span className="cart-icon">🛒</span>
             {cartItemCount > 0 && (
               <span className="cart-badge">{cartItemCount}</span>
             )}
-          </Link>
+          </NavLink>
 
-          {/* User Menu */}
-          {user ? (
+          {isAuthenticated ? (
             <div className="user-menu">
               <Link to="/profile" className="user-profile">
-                <span className="user-icon">👤</span>
-                <span className="user-name">
-                  {user.firstName || user.username}
-                </span>
+                <span className="user-initials">{getUserInitials()}</span>
               </Link>
               <button onClick={handleLogout} className="logout-btn">
                 Logout

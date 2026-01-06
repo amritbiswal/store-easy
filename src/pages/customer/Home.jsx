@@ -49,7 +49,7 @@ const Home = () => {
       {/* Hero Section */}
       <section className="hero-section">
         <div className="hero-content">
-          <h1 className="hero-title">Welcome to StoreEasy</h1>
+          <h1 className="hero-title">Welcome to ShopEasy</h1>
           <p className="hero-subtitle">
             Discover premium footwear for every occasion. Quality meets style.
           </p>

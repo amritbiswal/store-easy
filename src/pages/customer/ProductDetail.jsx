@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { getProductById } from '../../services/api';
-import { useCart } from '../../context/CartContext';
-import Navbar from '../../components/Navbar';
-import Footer from '../../components/Footer';
-import Loader from '../../components/Loader';
-import './ProductDetail.css';
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { getProductById } from "../../services/api";
+import { useCart } from "../../context/CartContext";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
+import Loader from "../../components/Loader";
+import "./ProductDetail.css";
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -34,13 +34,13 @@ const ProductDetail = () => {
 
         // Set the first available size as default
         if (data.sizes && data.sizes.length > 0) {
-          const firstAvailableSize = data.sizes.find(s => s.stock > 0);
+          const firstAvailableSize = data.sizes.find((s) => s.stock > 0);
           if (firstAvailableSize) {
             setSelectedSize(firstAvailableSize.size);
           }
         }
       } catch (error) {
-        console.error('Error fetching product:', error);
+        console.error("Error fetching product:", error);
       } finally {
         setLoading(false);
       }
@@ -51,7 +51,7 @@ const ProductDetail = () => {
 
   const handleAddToCart = () => {
     if (!selectedSize) {
-      alert('Please select a size');
+      alert("Please select a size");
       return;
     }
 
@@ -64,7 +64,7 @@ const ProductDetail = () => {
       size: selectedSize,
       color: selectedColor,
       quantity: quantity,
-      thumbnail: product.thumbnail || product.images[0]
+      thumbnail: product.thumbnail || product.images[0],
     };
 
     addToCart(cartItem);
@@ -76,7 +76,7 @@ const ProductDetail = () => {
 
   const getAvailableStock = () => {
     if (!product || !selectedSize) return 0;
-    const sizeOption = product.sizes.find(s => s.size === selectedSize);
+    const sizeOption = product.sizes.find((s) => s.size === selectedSize);
     return sizeOption ? sizeOption.stock : 0;
   };
 
@@ -92,7 +92,6 @@ const ProductDetail = () => {
   if (loading) {
     return (
       <>
-        <Navbar />
         <Loader />
       </>
     );
@@ -101,10 +100,11 @@ const ProductDetail = () => {
   if (!product) {
     return (
       <>
-        <Navbar />
         <div className="error-container">
           <h2>Product not found</h2>
-          <button onClick={() => navigate('/products')}>Back to Products</button>
+          <button onClick={() => navigate("/products")}>
+            Back to Products
+          </button>
         </div>
       </>
     );
@@ -115,7 +115,6 @@ const ProductDetail = () => {
 
   return (
     <div className="product-detail-page">
-
       <div className="product-detail-container">
         {/* Image Gallery */}
         <div className="product-gallery">
@@ -132,7 +131,7 @@ const ProductDetail = () => {
                   key={index}
                   src={image}
                   alt={`${product.name} ${index + 1}`}
-                  className={selectedImage === index ? 'active' : ''}
+                  className={selectedImage === index ? "active" : ""}
                   onClick={() => setSelectedImage(index)}
                 />
               ))}
@@ -148,9 +147,13 @@ const ProductDetail = () => {
 
             {product.averageRating && (
               <div className="rating-section">
-                <span className="rating-stars">⭐ {product.averageRating.toFixed(1)}</span>
+                <span className="rating-stars">
+                  ⭐ {product.averageRating.toFixed(1)}
+                </span>
                 {product.totalReviews > 0 && (
-                  <span className="review-count">({product.totalReviews} reviews)</span>
+                  <span className="review-count">
+                    ({product.totalReviews} reviews)
+                  </span>
                 )}
               </div>
             )}
@@ -184,12 +187,16 @@ const ProductDetail = () => {
           {/* Color Selection */}
           {product.colors && product.colors.length > 0 && (
             <div className="selection-section">
-              <h3>Color: <span className="selected-value">{selectedColor}</span></h3>
+              <h3>
+                Color: <span className="selected-value">{selectedColor}</span>
+              </h3>
               <div className="color-options">
                 {product.colors.map((color) => (
                   <button
                     key={color}
-                    className={`color-option ${selectedColor === color ? 'selected' : ''}`}
+                    className={`color-option ${
+                      selectedColor === color ? "selected" : ""
+                    }`}
                     onClick={() => setSelectedColor(color)}
                   >
                     {color}
@@ -202,25 +209,35 @@ const ProductDetail = () => {
           {/* Size Selection */}
           {product.sizes && product.sizes.length > 0 && (
             <div className="selection-section">
-              <h3>Size: {selectedSize && <span className="selected-value">{selectedSize}</span>}</h3>
+              <h3>
+                Size:{" "}
+                {selectedSize && (
+                  <span className="selected-value">{selectedSize}</span>
+                )}
+              </h3>
               <div className="size-options">
                 {product.sizes.map((sizeOption) => (
                   <button
                     key={sizeOption.size}
                     className={`size-option ${
-                      selectedSize === sizeOption.size ? 'selected' : ''
-                    } ${sizeOption.stock === 0 ? 'disabled' : ''}`}
-                    onClick={() => sizeOption.stock > 0 && setSelectedSize(sizeOption.size)}
+                      selectedSize === sizeOption.size ? "selected" : ""
+                    } ${sizeOption.stock === 0 ? "disabled" : ""}`}
+                    onClick={() =>
+                      sizeOption.stock > 0 && setSelectedSize(sizeOption.size)
+                    }
                     disabled={sizeOption.stock === 0}
                   >
                     {sizeOption.size}
-                    {sizeOption.stock === 0 && <span className="out-badge">Out</span>}
+                    {sizeOption.stock === 0 && (
+                      <span className="out-badge">Out</span>
+                    )}
                   </button>
                 ))}
               </div>
               {selectedSize && (
                 <p className="stock-info">
-                  {availableStock} {availableStock === 1 ? 'item' : 'items'} available
+                  {availableStock} {availableStock === 1 ? "item" : "items"}{" "}
+                  available
                 </p>
               )}
             </div>
@@ -255,9 +272,17 @@ const ProductDetail = () => {
               onClick={handleAddToCart}
               disabled={!isInStock || !selectedSize}
             >
-              {!isInStock ? 'Out of Stock' : addedToCart ? '✓ Added to Cart' : 'Add to Cart'}
+              {!isInStock
+                ? "Out of Stock"
+                : addedToCart
+                ? "✓ Added to Cart"
+                : "Add to Cart"}
             </button>
-            <button className="buy-now-btn" onClick={() => navigate('/cart')} disabled={!isInStock}>
+            <button
+              className="buy-now-btn"
+              onClick={() => navigate("/cart")}
+              disabled={!isInStock}
+            >
               Buy Now
             </button>
           </div>

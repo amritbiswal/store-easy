@@ -53,7 +53,7 @@ export const FavoritesProvider = ({ children }) => {
 
     try {
       const response = await fetch(`http://localhost:5005/users/${user.id}`, {
-        method: "PATCH",
+        method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ favorites: newFavorites }),
       });

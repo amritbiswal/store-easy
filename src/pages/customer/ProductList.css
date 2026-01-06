@@ -1,5 +1,5 @@
 .product-list-page {
-  min-height: 100vh;
+  min-height: 78.6vh;
   display: flex;
   flex-direction: column;
   background-color: #fff;
@@ -273,7 +273,7 @@
   }
 
   .sidebar-wrapper.open::before {
-    content: '';
+    content: "";
     position: fixed;
     top: 0;
     left: 280px;
