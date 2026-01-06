@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import { CartProvider } from "./context/CartContext";
+import { FavoritesProvider } from "./context/FavoritesContext";
 
 // Navbar and footer
 import Navbar from "./components/Navbar";
@@ -35,10 +36,11 @@ import StockOrders from "./pages/admin/StockOrders";
 function App() {
   return (
     <AuthProvider>
-      <CartProvider>
-        <BrowserRouter>
-        <Navbar /> 
-          <Routes>
+      <FavoritesProvider>
+        <CartProvider>
+          <BrowserRouter>
+          <Navbar />
+            <Routes>
             {/* Public Routes */}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
@@ -72,6 +74,7 @@ function App() {
         <Footer />
         </BrowserRouter>
       </CartProvider>
+      </FavoritesProvider>
     </AuthProvider>
   );
 }
