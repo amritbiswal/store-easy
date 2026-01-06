@@ -266,6 +266,7 @@ export const registerUser = async (userData) => {
     const newUser = {
       ...userData,
       role: "customer",
+      favorites: [],
       createdAt: new Date().toISOString(),
     };
 

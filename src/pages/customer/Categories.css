@@ -72,7 +72,7 @@
 }
 
 /* Categories Section */
-.categories-section {
+.categories-page-section {
   max-width: 1400px;
   margin: 0 auto;
   padding: 3rem 2rem;
@@ -301,7 +301,7 @@
     font-size: 2rem;
   }
 
-  .categories-section {
+  .categories-page-section {
     padding: 2rem 1rem;
   }
 

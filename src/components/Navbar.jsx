@@ -19,6 +19,20 @@ const Navbar = () => {
     0
   );
 
+  // Get user initials
+  const getUserInitials = () => {
+    if (user?.firstName && user?.lastName) {
+      return `${user.firstName[0]}${user.lastName[0]}`.toUpperCase();
+    }
+    if (user?.firstName) {
+      return user.firstName[0].toUpperCase();
+    }
+    if (user?.username) {
+      return user.username[0].toUpperCase();
+    }
+    return "U";
+  };
+  
   return (
     <nav className="navbar">
       <div className="navbar-container">
@@ -26,7 +40,7 @@ const Navbar = () => {
         <div className="navbar-brand">
           <Link to="/" className="logo">
             <span className="logo-icon">👟</span>
-            <span className="logo-text">StoreEasy</span>
+            <span className="logo-text">ShopEasy</span>
           </Link>
         </div>
 
@@ -110,16 +124,8 @@ const Navbar = () => {
 
           {isAuthenticated ? (
             <div className="user-menu">
-              <Link
-                to="/profile"
-                className={({ isActive }) =>
-                  `user-profile ${isActive ? "active" : ""}`
-                }
-              >
-                <span className="user-icon">👤</span>
-                <span className="user-name">
-                  {user.firstName || user.username}
-                </span>
+              <Link to="/profile" className="user-profile">
+                <span className="user-initials">{getUserInitials()}</span>
               </Link>
               <button onClick={handleLogout} className="logout-btn">
                 Logout

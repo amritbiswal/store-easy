@@ -93,7 +93,7 @@ const Categories = () => {
       </section>
 
       {/* Categories Grid */}
-      <section className="categories-section">
+      <section className="categories-page-section">
         <div className="categories-grid">
           {categories.map((category) => (
             <Link

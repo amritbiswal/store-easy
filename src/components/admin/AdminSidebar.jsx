@@ -3,7 +3,7 @@ import { useAuth } from "../../context/AuthContext";
 import "./AdminSidebar.css";
 
 const AdminSidebar = () => {
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
 
   const menuItems = [
     {
@@ -78,18 +78,6 @@ const AdminSidebar = () => {
           ))}
         </ul>
       </nav>
-
-      {/* Sidebar Footer */}
-      {/* <div className="sidebar-footer">
-        <NavLink to="/" className="nav-link back-to-store">
-          <span className="nav-icon">🏪</span>
-          <span className="nav-label">Back to Store</span>
-        </NavLink>
-        <button className="logout-btn" onClick={logout}>
-          <span className="nav-icon">🚪</span>
-          <span className="nav-label">Logout</span>
-        </button>
-      </div> */}
     </aside>
   );
 };

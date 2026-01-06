@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { getDashboardStats, getRecentOrders } from "../../services/api";
+import Loader from "../../components/Loader";
 import "./Dashboard.css";
 
 const Dashboard = () => {
@@ -55,10 +56,11 @@ const Dashboard = () => {
 
   if (isLoading) {
     return (
-      <div className="dashboard-loading">
-        <div className="loader"></div>
-        <p>Loading dashboard...</p>
-      </div>
+      // <div className="dashboard-loading">
+      //   <div className="loader"></div>
+      //   <p>Loading dashboard...</p>
+      // </div>
+      <Loader message="Loading dashboard..." />
     );
   }
 
