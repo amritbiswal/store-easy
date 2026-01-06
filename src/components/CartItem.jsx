@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import './CartItem.css';
 
 const CartItem = ({ item, onRemove, onUpdateQuantity }) => {
@@ -8,15 +9,19 @@ const CartItem = ({ item, onRemove, onUpdateQuantity }) => {
     }
   };
 
+  const productId = item.productId || item.id;
+
   return (
     <div className="cart-item">
-      <div className="cart-item-image-container">
+      <Link to={`/products/${productId}`} className="cart-item-image-container">
         <img src={item.thumbnail || item.image} alt={item.name} className="cart-item-image" />
-      </div>
+      </Link>
 
       <div className="cart-item-info">
         <div className="cart-item-main-info">
-          <h3 className="cart-item-name">{item.name}</h3>
+          <Link to={`/products/${productId}`} className="cart-item-name-link">
+            <h3 className="cart-item-name">{item.name}</h3>
+          </Link>
           {item.brand && <p className="cart-item-brand">{item.brand}</p>}
 
           <div className="cart-item-attributes">

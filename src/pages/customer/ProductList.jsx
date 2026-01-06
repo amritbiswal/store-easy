@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { getProducts } from "../../services/api";
-import Navbar from "../../components/Navbar";
 import ProductCard from "../../components/ProductCard";
 import Sidebar from "../../components/Sidebar";
 import Loader from "../../components/Loader";
@@ -99,7 +98,6 @@ const ProductList = () => {
   if (loading) {
     return (
       <>
-        <Navbar />
         <Loader />
       </>
     );
@@ -107,9 +105,14 @@ const ProductList = () => {
 
   return (
     <div className="product-list-page">
-      <div className={`page-container ${!sidebarOpen ? 'sidebar-collapsed' : ''}`}>
-        <div className={`sidebar-wrapper ${sidebarOpen ? 'open' : 'closed'}`}>
-          <Sidebar onFilterChange={handleFilterChange} currentFilters={filters} />
+      <div
+        className={`page-container ${!sidebarOpen ? "sidebar-collapsed" : ""}`}
+      >
+        <div className={`sidebar-wrapper ${sidebarOpen ? "open" : "closed"}`}>
+          <Sidebar
+            onFilterChange={handleFilterChange}
+            currentFilters={filters}
+          />
         </div>
 
         <main className="products-main">
@@ -120,10 +123,21 @@ const ProductList = () => {
                 onClick={() => setSidebarOpen(!sidebarOpen)}
                 aria-label={sidebarOpen ? "Hide filters" : "Show filters"}
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M3 6h18M3 12h18M3 18h18"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  />
                 </svg>
-                {sidebarOpen ? 'Hide filters' : 'Show filters'}
+                {sidebarOpen ? "Hide filters" : "Show filters"}
               </button>
 
               <div className="header-info">
@@ -133,7 +147,8 @@ const ProductList = () => {
 
             <div className="products-controls">
               <p className="products-count">
-                {filteredProducts.length} {filteredProducts.length > 1 ? 'products' : 'product'}
+                {filteredProducts.length}{" "}
+                {filteredProducts.length > 1 ? "products" : "product"}
               </p>
 
               <div className="sort-container">
