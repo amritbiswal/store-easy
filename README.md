@@ -111,7 +111,6 @@ shoe-store-app/
 │   │   │   ├── ProductManagement.jsx
 │   │   │   ├── InventoryManagement.jsx
 │   │   │   ├── OrderManagement.jsx
-│   │   │   ├── CustomerManagement.jsx
 │   │   │   └── StockOrders.jsx
 │   │   │
 │   │   ├── customer/
