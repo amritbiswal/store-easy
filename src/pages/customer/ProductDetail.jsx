@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getProductById } from "../../services/api";
 import { useCart } from "../../context/CartContext";
+import { useFavorites } from "../../context/FavoritesContext";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import Loader from "../../components/Loader";
@@ -11,6 +12,7 @@ const ProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addToCart } = useCart();
+  const { isFavorite, toggleFavorite } = useFavorites();
 
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -89,6 +91,10 @@ const ProductDetail = () => {
     }
   };
 
+  const handleFavoriteClick = () => {
+    toggleFavorite(product.id);
+  };
+
   if (loading) {
     return (
       <>
@@ -142,8 +148,33 @@ const ProductDetail = () => {
         {/* Product Info */}
         <div className="product-info-section">
           <div className="product-header">
-            <h1>{product.name}</h1>
-            <p className="product-brand">{product.brand}</p>
+            <div className="product-header-top">
+              <div>
+                <h1>{product.name}</h1>
+                <p className="product-brand">{product.brand}</p>
+              </div>
+              <button
+                className={`favorite-btn-detail ${isFavorite(product.id) ? 'favorited' : ''}`}
+                onClick={handleFavoriteClick}
+                aria-label={isFavorite(product.id) ? 'Remove from favorites' : 'Add to favorites'}
+              >
+                <svg
+                  width="28"
+                  height="28"
+                  viewBox="0 0 24 24"
+                  fill={isFavorite(product.id) ? 'currentColor' : 'none'}
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+            </div>
 
             {product.averageRating && (
               <div className="rating-section">

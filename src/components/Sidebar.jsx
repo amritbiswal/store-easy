@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { getCategories } from '../services/api';
+import { getCategories, getBrands } from '../services/api';
 import './Sidebar.css';
 
 const Sidebar = ({ onFilterChange, currentFilters }) => {
   const [categories, setCategories] = useState([]);
+  const [brands, setBrands] = useState([]);
   const [priceRange, setPriceRange] = useState({ min: 0, max: 500 });
 
   useEffect(() => {
@@ -17,7 +18,18 @@ const Sidebar = ({ onFilterChange, currentFilters }) => {
       }
     };
 
+    // Fetch brands from API
+    const fetchBrands = async () => {
+      try {
+        const data = await getBrands();
+        setBrands(data);
+      } catch (error) {
+        console.error('Error fetching brands:', error);
+      }
+    };
+
     fetchCategories();
+    fetchBrands();
   }, []);
 
   const handleCategoryChange = (categorySlug) => {
@@ -26,6 +38,14 @@ const Sidebar = ({ onFilterChange, currentFilters }) => {
       : [...currentFilters.categories, categorySlug];
 
     onFilterChange({ ...currentFilters, categories: updatedCategories });
+  };
+
+  const handleBrandChange = (brandName) => {
+    const updatedBrands = currentFilters.brands.includes(brandName)
+      ? currentFilters.brands.filter(b => b !== brandName)
+      : [...currentFilters.brands, brandName];
+
+    onFilterChange({ ...currentFilters, brands: updatedBrands });
   };
 
   const handlePriceChange = (e) => {
@@ -43,6 +63,7 @@ const Sidebar = ({ onFilterChange, currentFilters }) => {
     setPriceRange({ min: 0, max: 500 });
     onFilterChange({
       categories: [],
+      brands: [],
       priceRange: { min: 0, max: 500 },
       inStockOnly: false
     });
@@ -70,6 +91,23 @@ const Sidebar = ({ onFilterChange, currentFilters }) => {
               />
               <span>{category.name}</span>
               <span className="count">({category.count})</span>
+            </label>
+          ))}
+        </div>
+      </div>
+
+      {/* Brands Filter */}
+      <div className="filter-section">
+        <h4>Brands</h4>
+        <div className="brand-filters">
+          {brands.map(brand => (
+            <label key={brand.id} className="checkbox-label">
+              <input
+                type="checkbox"
+                checked={currentFilters.brands.includes(brand.name)}
+                onChange={() => handleBrandChange(brand.name)}
+              />
+              <span>{brand.name}</span>
             </label>
           ))}
         </div>
