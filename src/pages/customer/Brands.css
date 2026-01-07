@@ -370,6 +370,11 @@
   letter-spacing: 1px;
 }
 
+.brand-stats-section .stat-label {
+  font-size: 0.8rem;
+  color: #ffffff;
+}
+
 /* Brand Marquee */
 .brand-marquee {
   background: white;
