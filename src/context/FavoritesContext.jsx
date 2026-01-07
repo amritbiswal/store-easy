@@ -1,6 +1,6 @@
-import React, { createContext, useState, useEffect, useContext } from "react";
+import { createContext, useState, useEffect, useContext } from "react";
 import { useAuth } from "./AuthContext";
-
+import { API_URL } from "../config/apiConfig";
 export const FavoritesContext = createContext();
 
 export const useFavorites = () => {
@@ -26,7 +26,7 @@ export const FavoritesProvider = ({ children }) => {
 
     try {
       setLoading(true);
-      const response = await fetch(`http://localhost:5005/users/${user.id}`);
+      const response = await fetch(`${API_URL}/users/${user.id}`);
       const userData = await response.json();
       setFavorites(userData.favorites || []);
     } catch (error) {
@@ -52,7 +52,7 @@ export const FavoritesProvider = ({ children }) => {
     setFavorites(newFavorites);
 
     try {
-      const response = await fetch(`http://localhost:5005/users/${user.id}`, {
+      const response = await fetch(`${API_URL}/users/${user.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ favorites: newFavorites }),
@@ -63,7 +63,9 @@ export const FavoritesProvider = ({ children }) => {
       }
 
       // Verify the update was successful by fetching fresh data
-      const verifyResponse = await fetch(`http://localhost:5005/users/${user.id}`);
+      const verifyResponse = await fetch(
+        `${API_URL}/users/${user.id}`
+      );
       const userData = await verifyResponse.json();
       setFavorites(userData.favorites || []);
 

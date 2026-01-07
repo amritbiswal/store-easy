@@ -141,10 +141,7 @@ export const updateProduct = async (id, productData) => {
 // Patch product (Admin) - partial update
 export const patchProduct = async (id, partialData) => {
   try {
-    const response = await axios.put(
-      `${API_URL}/products/${id}`,
-      partialData
-    );
+    const response = await axios.put(`${API_URL}/products/${id}`, partialData);
     return response.data;
   } catch (error) {
     console.error("Error patching product:", error);
@@ -380,7 +377,7 @@ export const createOrder = async (orderData) => {
       ...orderData,
       orderNumber,
       status: "pending",
-      trackingNumber: generateTrackingNumber(), 
+      trackingNumber: generateTrackingNumber(),
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
