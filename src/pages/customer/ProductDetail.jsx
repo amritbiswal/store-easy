@@ -3,8 +3,6 @@ import { useParams, useNavigate } from "react-router-dom";
 import { getProductById, getProductReviews } from "../../services/api";
 import { useCart } from "../../context/CartContext";
 import { useFavorites } from "../../context/FavoritesContext";
-import Navbar from "../../components/Navbar";
-import Footer from "../../components/Footer";
 import Loader from "../../components/Loader";
 import "./ProductDetail.css";
 

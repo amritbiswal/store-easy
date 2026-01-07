@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { getBrands, getProducts } from "../../services/api";
+import Loader from "../../components/Loader";
 import "./Brands.css";
 
 const Brands = () => {
@@ -72,10 +73,9 @@ const Brands = () => {
 
   if (isLoading) {
     return (
-      <div className="brands-loading">
-        <div className="loader"></div>
-        <p>Loading brands...</p>
-      </div>
+      <>
+        <Loader />
+      </>
     );
   }
 

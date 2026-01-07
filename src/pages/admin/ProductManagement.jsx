@@ -8,6 +8,7 @@ import {
   deleteProduct,
 } from "../../services/api";
 import "./ProductManagement.css";
+import Loader from "../../components/Loader";
 
 const ProductManagement = () => {
   const [products, setProducts] = useState([]);
@@ -453,10 +454,9 @@ const ProductManagement = () => {
 
   if (isLoading) {
     return (
-      <div className="product-management-loading">
-        <div className="loader"></div>
-        <p>Loading products...</p>
-      </div>
+      <>
+        <Loader />
+      </>
     );
   }
 

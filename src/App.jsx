@@ -32,7 +32,6 @@ import Dashboard from "./pages/admin/Dashboard";
 import ProductManagement from "./pages/admin/ProductManagement";
 import InventoryManagement from "./pages/admin/InventoryManagement";
 import OrderManagement from "./pages/admin/OrderManagement";
-import CustomerManagement from "./pages/admin/CustomerManagement";
 import StockOrders from "./pages/admin/StockOrders";
 
 // Route Guards
@@ -76,7 +75,6 @@ function App() {
                 element={<InventoryManagement />}
               />
               <Route path="/admin/orders" element={<OrderManagement />} />
-              <Route path="/admin/customers" element={<CustomerManagement />} />
               <Route path="/admin/stock-orders" element={<StockOrders />} />
             </Route>
             {/* </Route> */}

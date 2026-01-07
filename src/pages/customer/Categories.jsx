@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { getCategories, getProducts } from "../../services/api";
+import Loader from "../../components/Loader";
 import "./Categories.css";
 
 const Categories = () => {
@@ -63,10 +64,9 @@ const Categories = () => {
 
   if (isLoading) {
     return (
-      <div className="categories-loading">
-        <div className="loader"></div>
-        <p>Loading categories...</p>
-      </div>
+      <>
+        <Loader />
+      </>
     );
   }
 

@@ -13,7 +13,11 @@ const Home = () => {
   }, []);
 
   if (loading) {
-    return <Loader />;
+    return (
+      <>
+        <Loader />
+      </>
+    );
   }
 
   return (
@@ -28,8 +32,8 @@ const Home = () => {
             <span className="hero-highlight">Premium Footwear</span>
           </h1>
           <p className="hero-subtitle">
-            Discover the perfect blend of comfort, quality, and style.
-            From casual sneakers to elegant dress shoes - find your perfect match.
+            Discover the perfect blend of comfort, quality, and style. From
+            casual sneakers to elegant dress shoes - find your perfect match.
           </p>
           <div className="hero-cta-group">
             <Link to="/products" className="hero-cta primary">
@@ -64,22 +68,34 @@ const Home = () => {
             <div className="feature-card">
               <div className="feature-icon">🚚</div>
               <h3>Free Shipping</h3>
-              <p>Free delivery on all orders over €50. Fast and reliable shipping worldwide.</p>
+              <p>
+                Free delivery on all orders over €50. Fast and reliable shipping
+                worldwide.
+              </p>
             </div>
             <div className="feature-card">
               <div className="feature-icon">↩️</div>
               <h3>Easy Returns</h3>
-              <p>Not satisfied? Return within 30 days for a full refund. No questions asked.</p>
+              <p>
+                Not satisfied? Return within 30 days for a full refund. No
+                questions asked.
+              </p>
             </div>
             <div className="feature-card">
               <div className="feature-icon">🔒</div>
               <h3>Secure Payment</h3>
-              <p>Shop with confidence. 100% secure payment processing and data protection.</p>
+              <p>
+                Shop with confidence. 100% secure payment processing and data
+                protection.
+              </p>
             </div>
             <div className="feature-card">
               <div className="feature-icon">⭐</div>
               <h3>Premium Quality</h3>
-              <p>Only authentic products from the world's leading footwear brands.</p>
+              <p>
+                Only authentic products from the world's leading footwear
+                brands.
+              </p>
             </div>
           </div>
         </div>
@@ -106,7 +122,8 @@ const Home = () => {
             <div className="testimonial-card">
               <div className="testimonial-rating">⭐⭐⭐⭐⭐</div>
               <p className="testimonial-text">
-                "Best online shoe store! Fast delivery, great quality, and amazing customer service."
+                "Best online shoe store! Fast delivery, great quality, and
+                amazing customer service."
               </p>
               <div className="testimonial-author">
                 <strong>Sarah M.</strong>
@@ -116,7 +133,8 @@ const Home = () => {
             <div className="testimonial-card">
               <div className="testimonial-rating">⭐⭐⭐⭐⭐</div>
               <p className="testimonial-text">
-                "Found the perfect running shoes. Comfortable, stylish, and at a great price!"
+                "Found the perfect running shoes. Comfortable, stylish, and at a
+                great price!"
               </p>
               <div className="testimonial-author">
                 <strong>Mike R.</strong>
@@ -126,7 +144,8 @@ const Home = () => {
             <div className="testimonial-card">
               <div className="testimonial-rating">⭐⭐⭐⭐⭐</div>
               <p className="testimonial-text">
-                "Love the variety and quality. ShoeEasy is now my go-to for all footwear needs!"
+                "Love the variety and quality. ShoeEasy is now my go-to for all
+                footwear needs!"
               </p>
               <div className="testimonial-author">
                 <strong>Emma L.</strong>

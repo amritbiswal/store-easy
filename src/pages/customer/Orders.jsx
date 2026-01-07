@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { getOrdersByUserId } from "../../services/api";
+import Loader from "../../components/Loader";
 import "./Orders.css";
 
 const Orders = () => {
@@ -68,11 +69,9 @@ const Orders = () => {
 
   if (loading) {
     return (
-      <div className="orders-page">
-        <div className="orders-container">
-          <div className="loading-spinner">Loading your orders...</div>
-        </div>
-      </div>
+      <>
+        <Loader />
+      </>
     );
   }
 

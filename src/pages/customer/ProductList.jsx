@@ -104,11 +104,7 @@ const ProductList = () => {
   };
 
   if (loading) {
-    return (
-      <>
-        <Loader />
-      </>
-    );
+    return <Loader />;
   }
 
   return (

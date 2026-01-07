@@ -7,6 +7,7 @@ import {
   getProducts,
 } from "../../services/api";
 import "./InventoryManagement.css";
+import Loader from "../../components/Loader";
 
 const InventoryManagement = () => {
   const [inventory, setInventory] = useState([]);
@@ -317,10 +318,9 @@ const InventoryManagement = () => {
 
   if (isLoading) {
     return (
-      <div className="inventory-loading">
-        <div className="loader"></div>
-        <p>Loading inventory...</p>
-      </div>
+      <>
+        <Loader />
+      </>
     );
   }
 

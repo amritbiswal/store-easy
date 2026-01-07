@@ -19,7 +19,7 @@ const Login = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    
+
     // Clear errors when user types
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: "" }));
@@ -110,9 +110,7 @@ const Login = () => {
               disabled={isLoading}
               autoComplete="email"
             />
-            {errors.email && (
-              <span className="error-text">{errors.email}</span>
-            )}
+            {errors.email && <span className="error-text">{errors.email}</span>}
           </div>
 
           <div className="form-group">
@@ -153,11 +151,7 @@ const Login = () => {
             </Link>
           </div>
 
-          <button
-            type="submit"
-            className="btn-login"
-            disabled={isLoading}
-          >
+          <button type="submit" className="btn-login" disabled={isLoading}>
             {isLoading ? (
               <>
                 <span className="spinner"></span>
@@ -180,9 +174,11 @@ const Login = () => {
 
         {/* Demo credentials hint */}
         <div className="demo-hint">
-          <p><strong>Demo Accounts:</strong></p>
-          <p>Admin: admin@storeeasy.com / admin123</p>
-          <p>Customer: john@example.com / customer123</p>
+          <p>
+            <strong>Demo Accounts:</strong>
+          </p>
+          <p>Admin: admin@shoeeasy.com / admin123</p>
+          <p>Customer: john@example.com / john123</p>
         </div>
       </div>
     </div>

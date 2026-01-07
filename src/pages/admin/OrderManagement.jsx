@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { getOrders, updateOrder } from "../../services/api";
+import Loader from "../../components/Loader";
 import "./OrderManagement.css";
 
 const OrderManagement = () => {
@@ -80,11 +81,9 @@ const OrderManagement = () => {
   // Format date
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
       month: "short",
       day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
+      year: "numeric",
     });
   };
 
@@ -208,10 +207,9 @@ const OrderManagement = () => {
 
   if (isLoading) {
     return (
-      <div className="order-management-loading">
-        <div className="loader"></div>
-        <p>Loading orders...</p>
-      </div>
+      <>
+        <Loader />
+      </>
     );
   }
 
@@ -266,7 +264,8 @@ const OrderManagement = () => {
           <span className="stat-icon">💰</span>
           <div className="stat-info">
             <span className="stat-value">
-              €{orderStats.totalRevenue.toLocaleString("en-US", {
+              €
+              {orderStats.totalRevenue.toLocaleString("en-US", {
                 minimumFractionDigits: 2,
               })}
             </span>
@@ -338,21 +337,31 @@ const OrderManagement = () => {
                   <td className="order-number">{order.orderNumber}</td>
                   <td>
                     <div className="customer-cell">
-                      <span className="customer-name">{order.customerName}</span>
-                      <span className="customer-email">{order.customerEmail}</span>
+                      <span className="customer-name">
+                        {order.customerName}
+                      </span>
+                      <span className="customer-email">
+                        {order.customerEmail}
+                      </span>
                     </div>
                   </td>
                   <td>{order.items?.length || 0} item(s)</td>
-                  <td className="order-date">{formatDate(order.orderDate)}</td>
+                  <td className="order-date">{formatDate(order.updatedAt)}</td>
                   <td className="order-total">€{order.total?.toFixed(2)}</td>
                   <td>
-                    <span className={`payment-badge ${getPaymentClass(order.paymentStatus)}`}>
+                    <span
+                      className={`payment-badge ${getPaymentClass(
+                        order.paymentStatus
+                      )}`}
+                    >
                       {order.paymentStatus}
                     </span>
                   </td>
                   <td>
                     <select
-                      className={`status-select ${getStatusClass(order.status)}`}
+                      className={`status-select ${getStatusClass(
+                        order.status
+                      )}`}
                       value={order.status}
                       onChange={(e) =>
                         handleQuickStatusUpdate(order.id, e.target.value)
@@ -399,7 +408,10 @@ const OrderManagement = () => {
       {/* View Order Modal */}
       {showViewModal && selectedOrder && (
         <div className="modal-overlay" onClick={() => setShowViewModal(false)}>
-          <div className="modal-content view-modal" onClick={(e) => e.stopPropagation()}>
+          <div
+            className="modal-content view-modal"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="modal-header">
               <h2>Order Details</h2>
               <button
@@ -417,23 +429,33 @@ const OrderManagement = () => {
                 <div className="detail-grid">
                   <div className="detail-item">
                     <span className="detail-label">Order Number</span>
-                    <span className="detail-value">{selectedOrder.orderNumber}</span>
+                    <span className="detail-value">
+                      {selectedOrder.orderNumber}
+                    </span>
                   </div>
                   <div className="detail-item">
                     <span className="detail-label">Order Date</span>
                     <span className="detail-value">
-                      {formatDate(selectedOrder.orderDate)}
+                      {formatDate(selectedOrder.updatedAt)}
                     </span>
                   </div>
                   <div className="detail-item">
                     <span className="detail-label">Status</span>
-                    <span className={`status-badge ${getStatusClass(selectedOrder.status)}`}>
+                    <span
+                      className={`status-badge ${getStatusClass(
+                        selectedOrder.status
+                      )}`}
+                    >
                       {selectedOrder.status}
                     </span>
                   </div>
                   <div className="detail-item">
                     <span className="detail-label">Payment Status</span>
-                    <span className={`payment-badge ${getPaymentClass(selectedOrder.paymentStatus)}`}>
+                    <span
+                      className={`payment-badge ${getPaymentClass(
+                        selectedOrder.paymentStatus
+                      )}`}
+                    >
                       {selectedOrder.paymentStatus}
                     </span>
                   </div>
@@ -446,17 +468,23 @@ const OrderManagement = () => {
                 <div className="detail-grid">
                   <div className="detail-item">
                     <span className="detail-label">Name</span>
-                    <span className="detail-value">{selectedOrder.customerName}</span>
+                    <span className="detail-value">
+                      {selectedOrder.customerName}
+                    </span>
                   </div>
                   <div className="detail-item">
                     <span className="detail-label">Email</span>
-                    <span className="detail-value">{selectedOrder.customerEmail}</span>
+                    <span className="detail-value">
+                      {selectedOrder.customerEmail}
+                    </span>
                   </div>
                   <div className="detail-item full-width">
                     <span className="detail-label">Shipping Address</span>
                     <span className="detail-value">
-                      {selectedOrder.shippingAddress?.street}, {selectedOrder.shippingAddress?.city},{" "}
-                      {selectedOrder.shippingAddress?.state} {selectedOrder.shippingAddress?.zipCode},{" "}
+                      {selectedOrder.shippingAddress?.street},{" "}
+                      {selectedOrder.shippingAddress?.city},{" "}
+                      {selectedOrder.shippingAddress?.state}{" "}
+                      {selectedOrder.shippingAddress?.zipCode},{" "}
                       {selectedOrder.shippingAddress?.country}
                     </span>
                   </div>
@@ -551,7 +579,10 @@ const OrderManagement = () => {
       {/* Edit Order Modal */}
       {showEditModal && selectedOrder && (
         <div className="modal-overlay" onClick={() => setShowEditModal(false)}>
-          <div className="modal-content edit-modal" onClick={(e) => e.stopPropagation()}>
+          <div
+            className="modal-content edit-modal"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="modal-header">
               <h2>Edit Order - {selectedOrder.orderNumber}</h2>
               <button

@@ -1,42 +1,42 @@
-import { useState, useEffect } from 'react';
-import { useAuth } from '../../context/AuthContext';
-import { updateUserProfile } from '../../services/api';
-import Loader from '../../components/Loader';
-import './Profile.css';
+import { useState, useEffect } from "react";
+import { useAuth } from "../../context/AuthContext";
+import { updateUserProfile } from "../../services/api";
+import Loader from "../../components/Loader";
+import "./Profile.css";
 
 const Profile = () => {
   const { user, loading: authLoading, updateUser } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [editedUser, setEditedUser] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
     address: {
-      street: '',
-      city: '',
-      state: '',
-      zipCode: '',
-      country: ''
-    }
+      street: "",
+      city: "",
+      state: "",
+      zipCode: "",
+      country: "",
+    },
   });
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
     if (user) {
       setEditedUser({
-        firstName: user.firstName || '',
-        lastName: user.lastName || '',
-        email: user.email || '',
-        phone: user.phone || '',
+        firstName: user.firstName || "",
+        lastName: user.lastName || "",
+        email: user.email || "",
+        phone: user.phone || "",
         address: {
-          street: user.address?.street || '',
-          city: user.address?.city || '',
-          state: user.address?.state || '',
-          zipCode: user.address?.zipCode || '',
-          country: user.address?.country || ''
-        }
+          street: user.address?.street || "",
+          city: user.address?.city || "",
+          state: user.address?.state || "",
+          zipCode: user.address?.zipCode || "",
+          country: user.address?.country || "",
+        },
       });
     }
   }, [user]);
@@ -44,25 +44,25 @@ const Profile = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
-    if (name.startsWith('address.')) {
-      const addressField = name.split('.')[1];
-      setEditedUser(prev => ({
+    if (name.startsWith("address.")) {
+      const addressField = name.split(".")[1];
+      setEditedUser((prev) => ({
         ...prev,
         address: {
           ...prev.address,
-          [addressField]: value
-        }
+          [addressField]: value,
+        },
       }));
     } else {
-      setEditedUser(prev => ({
+      setEditedUser((prev) => ({
         ...prev,
-        [name]: value
+        [name]: value,
       }));
     }
 
     // Clear error for this field
     if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: '' }));
+      setErrors((prev) => ({ ...prev, [name]: "" }));
     }
   };
 
@@ -70,21 +70,21 @@ const Profile = () => {
     const newErrors = {};
 
     if (!editedUser.firstName.trim()) {
-      newErrors.firstName = 'First name is required';
+      newErrors.firstName = "First name is required";
     }
 
     if (!editedUser.lastName.trim()) {
-      newErrors.lastName = 'Last name is required';
+      newErrors.lastName = "Last name is required";
     }
 
     if (!editedUser.email.trim()) {
-      newErrors.email = 'Email is required';
+      newErrors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(editedUser.email)) {
-      newErrors.email = 'Email is invalid';
+      newErrors.email = "Email is invalid";
     }
 
     if (editedUser.phone && !/^[\d\s+\-()]+$/.test(editedUser.phone)) {
-      newErrors.phone = 'Phone number is invalid';
+      newErrors.phone = "Phone number is invalid";
     }
 
     setErrors(newErrors);
@@ -101,16 +101,16 @@ const Profile = () => {
       const updatedData = {
         ...user,
         ...editedUser,
-        address: editedUser.address
+        address: editedUser.address,
       };
 
       const response = await updateUserProfile(user.id, updatedData);
       updateUser(response);
       setIsEditing(false);
-      alert('Profile updated successfully!');
+      alert("Profile updated successfully!");
     } catch (error) {
-      console.error('Error updating profile:', error);
-      alert('Failed to update profile. Please try again.');
+      console.error("Error updating profile:", error);
+      alert("Failed to update profile. Please try again.");
     } finally {
       setIsSaving(false);
     }
@@ -118,33 +118,37 @@ const Profile = () => {
 
   const handleCancel = () => {
     setEditedUser({
-      firstName: user.firstName || '',
-      lastName: user.lastName || '',
-      email: user.email || '',
-      phone: user.phone || '',
+      firstName: user.firstName || "",
+      lastName: user.lastName || "",
+      email: user.email || "",
+      phone: user.phone || "",
       address: {
-        street: user.address?.street || '',
-        city: user.address?.city || '',
-        state: user.address?.state || '',
-        zipCode: user.address?.zipCode || '',
-        country: user.address?.country || ''
-      }
+        street: user.address?.street || "",
+        city: user.address?.city || "",
+        state: user.address?.state || "",
+        zipCode: user.address?.zipCode || "",
+        country: user.address?.country || "",
+      },
     });
     setErrors({});
     setIsEditing(false);
   };
 
   const formatDate = (dateString) => {
-    if (!dateString) return 'N/A';
-    return new Date(dateString).toLocaleDateString('fr-FR', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
+    if (!dateString) return "N/A";
+    return new Date(dateString).toLocaleDateString("fr-FR", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
     });
   };
 
   if (authLoading) {
-    return <Loader />;
+    return (
+      <>
+        <Loader />
+      </>
+    );
   }
 
   if (!user) {
@@ -163,13 +167,20 @@ const Profile = () => {
         <div className="profile-header">
           <div className="profile-avatar">
             <span className="avatar-initials">
-              {user.firstName?.[0]}{user.lastName?.[0]}
+              {user.firstName?.[0]}
+              {user.lastName?.[0]}
             </span>
           </div>
           <div className="profile-header-info">
-            <h1>{user.firstName} {user.lastName}</h1>
-            <p className="profile-role">{user.role === 'admin' ? 'Administrator' : 'Customer'}</p>
-            <p className="profile-member-since">Member since {formatDate(user.createdAt)}</p>
+            <h1>
+              {user.firstName} {user.lastName}
+            </h1>
+            <p className="profile-role">
+              {user.role === "admin" ? "Administrator" : "Customer"}
+            </p>
+            <p className="profile-member-since">
+              Member since {formatDate(user.createdAt)}
+            </p>
           </div>
         </div>
 
@@ -179,10 +190,7 @@ const Profile = () => {
             <div className="section-header">
               <h2>Personal Information</h2>
               {!isEditing && (
-                <button
-                  className="btn-edit"
-                  onClick={() => setIsEditing(true)}
-                >
+                <button className="btn-edit" onClick={() => setIsEditing(true)}>
                   Edit Profile
                 </button>
               )}
@@ -198,9 +206,11 @@ const Profile = () => {
                       name="firstName"
                       value={editedUser.firstName}
                       onChange={handleInputChange}
-                      className={errors.firstName ? 'error' : ''}
+                      className={errors.firstName ? "error" : ""}
                     />
-                    {errors.firstName && <span className="error-text">{errors.firstName}</span>}
+                    {errors.firstName && (
+                      <span className="error-text">{errors.firstName}</span>
+                    )}
                   </div>
                 ) : (
                   <p>{user.firstName}</p>
@@ -216,9 +226,11 @@ const Profile = () => {
                       name="lastName"
                       value={editedUser.lastName}
                       onChange={handleInputChange}
-                      className={errors.lastName ? 'error' : ''}
+                      className={errors.lastName ? "error" : ""}
                     />
-                    {errors.lastName && <span className="error-text">{errors.lastName}</span>}
+                    {errors.lastName && (
+                      <span className="error-text">{errors.lastName}</span>
+                    )}
                   </div>
                 ) : (
                   <p>{user.lastName}</p>
@@ -234,9 +246,11 @@ const Profile = () => {
                       name="email"
                       value={editedUser.email}
                       onChange={handleInputChange}
-                      className={errors.email ? 'error' : ''}
+                      className={errors.email ? "error" : ""}
                     />
-                    {errors.email && <span className="error-text">{errors.email}</span>}
+                    {errors.email && (
+                      <span className="error-text">{errors.email}</span>
+                    )}
                   </div>
                 ) : (
                   <p>{user.email}</p>
@@ -253,12 +267,14 @@ const Profile = () => {
                       value={editedUser.phone}
                       onChange={handleInputChange}
                       placeholder="Enter phone number"
-                      className={errors.phone ? 'error' : ''}
+                      className={errors.phone ? "error" : ""}
                     />
-                    {errors.phone && <span className="error-text">{errors.phone}</span>}
+                    {errors.phone && (
+                      <span className="error-text">{errors.phone}</span>
+                    )}
                   </div>
                 ) : (
-                  <p>{user.phone || 'Not provided'}</p>
+                  <p>{user.phone || "Not provided"}</p>
                 )}
               </div>
             </div>
@@ -282,7 +298,7 @@ const Profile = () => {
                     placeholder="Enter street address"
                   />
                 ) : (
-                  <p>{user.address?.street || 'Not provided'}</p>
+                  <p>{user.address?.street || "Not provided"}</p>
                 )}
               </div>
 
@@ -297,7 +313,7 @@ const Profile = () => {
                     placeholder="Enter city"
                   />
                 ) : (
-                  <p>{user.address?.city || 'Not provided'}</p>
+                  <p>{user.address?.city || "Not provided"}</p>
                 )}
               </div>
 
@@ -312,7 +328,7 @@ const Profile = () => {
                     placeholder="Enter state"
                   />
                 ) : (
-                  <p>{user.address?.state || 'Not provided'}</p>
+                  <p>{user.address?.state || "Not provided"}</p>
                 )}
               </div>
 
@@ -327,7 +343,7 @@ const Profile = () => {
                     placeholder="Enter zip code"
                   />
                 ) : (
-                  <p>{user.address?.zipCode || 'Not provided'}</p>
+                  <p>{user.address?.zipCode || "Not provided"}</p>
                 )}
               </div>
 
@@ -342,7 +358,7 @@ const Profile = () => {
                     placeholder="Enter country"
                   />
                 ) : (
-                  <p>{user.address?.country || 'Not provided'}</p>
+                  <p>{user.address?.country || "Not provided"}</p>
                 )}
               </div>
             </div>
@@ -356,7 +372,7 @@ const Profile = () => {
                 onClick={handleSave}
                 disabled={isSaving}
               >
-                {isSaving ? 'Saving...' : 'Save Changes'}
+                {isSaving ? "Saving..." : "Save Changes"}
               </button>
               <button
                 className="btn-cancel"

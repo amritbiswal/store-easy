@@ -56,11 +56,9 @@ const Dashboard = () => {
 
   if (isLoading) {
     return (
-      <div className="dashboard-loading">
-        <div className="loader"></div>
-        <p>Loading dashboard...</p>
-      </div>
-      // <Loader message="Loading dashboard..." />
+      <>
+        <Loader />
+      </>
     );
   }
 
@@ -83,33 +81,33 @@ const Dashboard = () => {
       </div>
 
       {/* Stats Cards */}
-      <div className="stats-grid">
-        <div className="stat-card">
-          <div className="stat-icon products">📦</div>
+      <div className="dashboard-stats-grid">
+        <div className="dashboard-stat-card">
+          <div className="dashboard-stat-icon products">📦</div>
           <div className="stat-info">
             <h3>Total Products</h3>
             <p className="stat-value">{stats.totalProducts}</p>
           </div>
         </div>
 
-        <div className="stat-card">
-          <div className="stat-icon orders">🛒</div>
+        <div className="dashboard-stat-card">
+          <div className="dashboard-stat-icon orders">🛒</div>
           <div className="stat-info">
             <h3>Total Orders</h3>
             <p className="stat-value">{stats.totalOrders}</p>
           </div>
         </div>
 
-        <div className="stat-card">
-          <div className="stat-icon customers">👥</div>
+        <div className="dashboard-stat-card">
+          <div className="dashboard-stat-icon customers">👥</div>
           <div className="stat-info">
             <h3>Total Customers</h3>
             <p className="stat-value">{stats.totalCustomers}</p>
           </div>
         </div>
 
-        <div className="stat-card">
-          <div className="stat-icon revenue">💰</div>
+        <div className="dashboard-stat-card">
+          <div className="dashboard-stat-icon revenue">💰</div>
           <div className="stat-info">
             <h3>Total Revenue</h3>
             <p className="stat-value">
@@ -122,16 +120,16 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="stat-card warning">
-          <div className="stat-icon pending">⏳</div>
+        <div className="dashboard-stat-card warning">
+          <div className="dashboard-stat-icon pending">⏳</div>
           <div className="stat-info">
             <h3>Pending Orders</h3>
             <p className="stat-value">{stats.pendingOrders}</p>
           </div>
         </div>
 
-        <div className="stat-card danger">
-          <div className="stat-icon low-stock">⚠️</div>
+        <div className="dashboard-stat-card danger">
+          <div className="dashboard-stat-icon low-stock">⚠️</div>
           <div className="stat-info">
             <h3>Low Stock</h3>
             <p className="stat-value">{stats.lowStockProducts}</p>
@@ -229,15 +227,6 @@ const Dashboard = () => {
           </table>
         </div>
       </div>
-
-      {/* Last Updated */}
-      {stats.lastUpdated && (
-        <div className="dashboard-footer">
-          <p className="last-updated">
-            Last updated: {formatDate(stats.lastUpdated)}
-          </p>
-        </div>
-      )}
     </div>
   );
 };

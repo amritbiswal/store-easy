@@ -2,8 +2,6 @@ import { useState, useEffect } from "react";
 import { useFavorites } from "../../context/FavoritesContext";
 import { useAuth } from "../../context/AuthContext";
 import { getProducts } from "../../services/api";
-import Navbar from "../../components/Navbar";
-import Footer from "../../components/Footer";
 import ProductCard from "../../components/ProductCard";
 import Loader from "../../components/Loader";
 import "./Favorites.css";
@@ -41,9 +39,7 @@ const Favorites = () => {
   if (loading) {
     return (
       <>
-        <Navbar />
         <Loader />
-        <Footer />
       </>
     );
   }

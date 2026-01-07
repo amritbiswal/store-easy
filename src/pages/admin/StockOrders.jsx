@@ -10,6 +10,7 @@ import {
   addInventoryLog,
 } from "../../services/api";
 import "./StockOrders.css";
+import Loader from "../../components/Loader";
 
 const StockOrders = () => {
   const [stockOrders, setStockOrders] = useState([]);
@@ -293,10 +294,9 @@ const StockOrders = () => {
 
   if (isLoading) {
     return (
-      <div className="stock-orders-loading">
-        <div className="loader"></div>
-        <p>Loading stock orders...</p>
-      </div>
+      <>
+        <Loader />
+      </>
     );
   }
 
