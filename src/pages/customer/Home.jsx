@@ -1,135 +1,137 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { getProducts, getCategories } from "../../services/api";
-import ProductCard from "../../components/ProductCard";
 import Loader from "../../components/Loader";
 import "./Home.css";
 
 const Home = () => {
-  const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const [productsData, categoriesData] = await Promise.all([
-          getProducts(),
-          getCategories(),
-        ]);
-
-        // Filter only active products for featured section
-        const activeProducts = productsData.filter((p) => p.isActive);
-        setProducts(activeProducts.slice(0, 4)); // Show only 4 featured products
-
-        // Filter only active categories
-        const activeCategories = categoriesData.filter((c) => c.isActive);
-        setCategories(activeCategories);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
+    // Simulate loading for smooth transition
+    const timer = setTimeout(() => setLoading(false), 300);
+    return () => clearTimeout(timer);
   }, []);
 
   if (loading) {
-    return (
-      <>
-        <Loader />
-      </>
-    );
+    return <Loader />;
   }
 
   return (
     <div className="home-page">
-      {/* Hero Section */}
+      {/* Enhanced Hero Section */}
       <section className="hero-section">
+        <div className="hero-overlay"></div>
         <div className="hero-content">
-          <h1 className="hero-title">Welcome to ShopEasy</h1>
+          <div className="hero-badge">New Collection 2026</div>
+          <h1 className="hero-title">
+            Step Into Style
+            <span className="hero-highlight">Premium Footwear</span>
+          </h1>
           <p className="hero-subtitle">
-            Discover premium footwear for every occasion. Quality meets style.
+            Discover the perfect blend of comfort, quality, and style.
+            From casual sneakers to elegant dress shoes - find your perfect match.
           </p>
-          <Link to="/products" className="hero-cta">
-            Shop Now
-          </Link>
-        </div>
-      </section>
-
-      {/* Categories Section */}
-      <section className="categories-section">
-        <div className="container">
-          <h2 className="section-title">Shop by Category</h2>
-          <div className="categories-grid">
-            {categories.map((category) => (
-              <Link
-                to={`/products?category=${category.slug}`}
-                key={category.id}
-                className="category-card"
-              >
-                <div className="category-image-wrapper">
-                  <img
-                    src={category.image}
-                    alt={category.name}
-                    className="category-image"
-                  />
-                </div>
-                <div className="category-info">
-                  <h3>{category.name}</h3>
-                  <p>{category.description}</p>
-                  <span className="category-count">
-                    {category.count} products
-                  </span>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Featured Products Section */}
-      <section className="featured-products-section">
-        <div className="container">
-          <div className="section-header">
-            <h2 className="section-title">Featured Products</h2>
-            <Link to="/products" className="view-all-link">
-              View All Products →
+          <div className="hero-cta-group">
+            <Link to="/products" className="hero-cta primary">
+              Shop Collection
+            </Link>
+            <Link to="/brands" className="hero-cta secondary">
+              Explore Brands
             </Link>
           </div>
-          <div className="products-grid">
-            {products.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
+          <div className="hero-stats">
+            <div className="stat-item">
+              <span className="stat-number">500+</span>
+              <span className="stat-label">Premium Styles</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-number">50K+</span>
+              <span className="stat-label">Happy Customers</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-number">4.9★</span>
+              <span className="stat-label">Average Rating</span>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Features/Benefits Section */}
+      {/* Trust & Features Section */}
       <section className="features-section">
         <div className="container">
+          <h2 className="features-heading">Why Choose ShoeEasy?</h2>
           <div className="features-grid">
             <div className="feature-card">
               <div className="feature-icon">🚚</div>
               <h3>Free Shipping</h3>
-              <p>On orders over €50</p>
+              <p>Free delivery on all orders over €50. Fast and reliable shipping worldwide.</p>
             </div>
             <div className="feature-card">
               <div className="feature-icon">↩️</div>
               <h3>Easy Returns</h3>
-              <p>30-day return policy</p>
+              <p>Not satisfied? Return within 30 days for a full refund. No questions asked.</p>
             </div>
             <div className="feature-card">
               <div className="feature-icon">🔒</div>
               <h3>Secure Payment</h3>
-              <p>100% secure transactions</p>
+              <p>Shop with confidence. 100% secure payment processing and data protection.</p>
             </div>
             <div className="feature-card">
               <div className="feature-icon">⭐</div>
-              <h3>Top Quality</h3>
-              <p>Premium brands only</p>
+              <h3>Premium Quality</h3>
+              <p>Only authentic products from the world's leading footwear brands.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Call to Action Section */}
+      <section className="cta-section">
+        <div className="cta-content">
+          <h2 className="cta-title">Ready to Find Your Perfect Pair?</h2>
+          <p className="cta-subtitle">
+            Browse our curated collection of premium footwear from top brands.
+          </p>
+          <Link to="/products" className="cta-button">
+            Start Shopping Now
+          </Link>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="testimonials-section">
+        <div className="container">
+          <h2 className="section-title">What Our Customers Say</h2>
+          <div className="testimonials-grid">
+            <div className="testimonial-card">
+              <div className="testimonial-rating">⭐⭐⭐⭐⭐</div>
+              <p className="testimonial-text">
+                "Best online shoe store! Fast delivery, great quality, and amazing customer service."
+              </p>
+              <div className="testimonial-author">
+                <strong>Sarah M.</strong>
+                <span>Verified Buyer</span>
+              </div>
+            </div>
+            <div className="testimonial-card">
+              <div className="testimonial-rating">⭐⭐⭐⭐⭐</div>
+              <p className="testimonial-text">
+                "Found the perfect running shoes. Comfortable, stylish, and at a great price!"
+              </p>
+              <div className="testimonial-author">
+                <strong>Mike R.</strong>
+                <span>Verified Buyer</span>
+              </div>
+            </div>
+            <div className="testimonial-card">
+              <div className="testimonial-rating">⭐⭐⭐⭐⭐</div>
+              <p className="testimonial-text">
+                "Love the variety and quality. ShoeEasy is now my go-to for all footwear needs!"
+              </p>
+              <div className="testimonial-author">
+                <strong>Emma L.</strong>
+                <span>Verified Buyer</span>
+              </div>
             </div>
           </div>
         </div>
