@@ -37,10 +37,10 @@ const ProductCard = ({ product }) => {
             <span>Out of Stock</span>
           </div>
         )}
-        {product.averageRating && (
+        {product.rating && (
           <div className="product-rating">
             <span className="rating-star">⭐</span>
-            <span className="rating-value">{product.averageRating.toFixed(1)}</span>
+            <span className="rating-value">{product.rating.toFixed(1)}</span>
           </div>
         )}
         <button
@@ -82,8 +82,8 @@ const ProductCard = ({ product }) => {
           )}
         </div>
 
-        {product.totalReviews > 0 && (
-          <p className="product-reviews">{product.totalReviews} reviews</p>
+        {product.reviews > 0 && (
+          <p className="product-reviews">{product.reviews} reviews</p>
         )}
 
         <button

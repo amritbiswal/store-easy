@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getProductById } from "../../services/api";
+import { getProductById, getProductReviews } from "../../services/api";
 import { useCart } from "../../context/CartContext";
 import { useFavorites } from "../../context/FavoritesContext";
 import Navbar from "../../components/Navbar";
@@ -15,6 +15,7 @@ const ProductDetail = () => {
   const { isFavorite, toggleFavorite } = useFavorites();
 
   const [product, setProduct] = useState(null);
+  const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedSize, setSelectedSize] = useState(null);
@@ -28,6 +29,10 @@ const ProductDetail = () => {
         setLoading(true);
         const data = await getProductById(id);
         setProduct(data);
+
+        // Fetch reviews
+        const reviewsData = await getProductReviews(id);
+        setReviews(reviewsData);
 
         // Set default selections
         if (data.colors && data.colors.length > 0) {
@@ -176,14 +181,14 @@ const ProductDetail = () => {
               </button>
             </div>
 
-            {product.averageRating && (
+            {product.rating && (
               <div className="rating-section">
                 <span className="rating-stars">
-                  ⭐ {product.averageRating.toFixed(1)}
+                  ⭐ {product.rating.toFixed(1)}
                 </span>
-                {product.totalReviews > 0 && (
+                {product.reviews > 0 && (
                   <span className="review-count">
-                    ({product.totalReviews} reviews)
+                    ({product.reviews} reviews)
                   </span>
                 )}
               </div>
@@ -319,6 +324,51 @@ const ProductDetail = () => {
           </div>
         </div>
       </div>
+
+      {/* Reviews Section */}
+      {reviews && reviews.length > 0 && (
+        <div className="reviews-section">
+          <div className="reviews-header">
+            <h2>Customer Reviews</h2>
+            <div className="reviews-summary">
+              <div className="average-rating">
+                <span className="rating-number">{product.rating.toFixed(1)}</span>
+                <div className="rating-stars-large">
+                  {'⭐'.repeat(Math.round(product.rating))}
+                </div>
+                <span className="total-reviews">Based on {product.reviews} reviews</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="reviews-list">
+            {reviews.map((review) => (
+              <div key={review.id} className="review-card">
+                <div className="review-header">
+                  <div className="reviewer-info">
+                    <span className="reviewer-name">{review.userName}</span>
+                    {review.verified && (
+                      <span className="verified-badge">✓ Verified Purchase</span>
+                    )}
+                  </div>
+                  <div className="review-rating">
+                    {'⭐'.repeat(review.rating)}
+                  </div>
+                </div>
+                <p className="review-date">
+                  {new Date(review.createdAt).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                  })}
+                </p>
+                {review.title && <h4 className="review-title">{review.title}</h4>}
+                <p className="review-comment">{review.comment}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
