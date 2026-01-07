@@ -61,10 +61,18 @@ export const FavoritesProvider = ({ children }) => {
       if (!response.ok) {
         throw new Error("Failed to update favorites");
       }
+
+      // Verify the update was successful by fetching fresh data
+      const verifyResponse = await fetch(`http://localhost:5005/users/${user.id}`);
+      const userData = await verifyResponse.json();
+      setFavorites(userData.favorites || []);
+
+      console.log("Favorites updated successfully:", userData.favorites);
     } catch (error) {
       console.error("Error updating favorites:", error);
       // Revert on error
       setFavorites(favorites);
+      alert("Failed to update favorites. Please try again.");
     }
   };
 

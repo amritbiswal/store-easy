@@ -47,6 +47,8 @@ const ProductManagement = () => {
   });
 
   const [formErrors, setFormErrors] = useState({});
+  const [imagePreviews, setImagePreviews] = useState([]);
+  const [uploadingImages, setUploadingImages] = useState({});
 
   // Available sizes for shoes
   const availableSizes = [
@@ -137,6 +139,7 @@ const ProductManagement = () => {
       onSale: false,
     });
     setFormErrors({});
+    setImagePreviews([]);
     setShowAddModal(true);
   };
 
@@ -161,6 +164,8 @@ const ProductManagement = () => {
       onSale: product.onSale || false,
     });
     setFormErrors({});
+    // Initialize previews with existing images
+    setImagePreviews(product.images?.length > 0 ? product.images : [""]);
     setShowEditModal(true);
   };
 
@@ -212,21 +217,103 @@ const ProductManagement = () => {
     }));
   };
 
-  // Handle image changes
+  // Upload image to Cloudinary
+  const uploadImageToCloudinary = async (file, index) => {
+    try {
+      setUploadingImages((prev) => ({ ...prev, [index]: true }));
+
+      const data = new FormData();
+      data.append("file", file);
+      data.append("upload_preset", "massfu");
+      data.append("cloud_name", "dpsircfos");
+
+      const response = await fetch(
+        "https://api.cloudinary.com/v1_1/dpsircfos/image/upload",
+        {
+          method: "POST",
+          body: data,
+        }
+      );
+
+      const result = await response.json();
+
+      if (result.secure_url) {
+        // Update the image URL in formData
+        const newImages = [...formData.images];
+        newImages[index] = result.secure_url;
+        setFormData((prev) => ({ ...prev, images: newImages }));
+
+        // Update preview
+        const newPreviews = [...imagePreviews];
+        newPreviews[index] = result.secure_url;
+        setImagePreviews(newPreviews);
+
+        console.log("Image uploaded successfully:", result.secure_url);
+      }
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      alert("Failed to upload image. Please try again.");
+    } finally {
+      setUploadingImages((prev) => ({ ...prev, [index]: false }));
+    }
+  };
+
+  // Handle file input change
+  const handleFileChange = (index, e) => {
+    const file = e.target.files[0];
+    if (file) {
+      // Validate file type
+      if (!file.type.startsWith("image/")) {
+        alert("Please select an image file");
+        return;
+      }
+
+      // Validate file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        alert("Image size should be less than 5MB");
+        return;
+      }
+
+      // Create local preview
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const newPreviews = [...imagePreviews];
+        newPreviews[index] = reader.result;
+        setImagePreviews(newPreviews);
+      };
+      reader.readAsDataURL(file);
+
+      // Upload to Cloudinary
+      uploadImageToCloudinary(file, index);
+    }
+  };
+
+  // Handle image URL changes (manual input)
   const handleImageChange = (index, value) => {
     const newImages = [...formData.images];
     newImages[index] = value;
     setFormData((prev) => ({ ...prev, images: newImages }));
+
+    // Update preview if it's a valid URL
+    if (value.trim()) {
+      const newPreviews = [...imagePreviews];
+      newPreviews[index] = value;
+      setImagePreviews(newPreviews);
+    }
   };
 
   const addImageField = () => {
     setFormData((prev) => ({ ...prev, images: [...prev.images, ""] }));
+    setImagePreviews((prev) => [...prev, ""]);
   };
 
   const removeImageField = (index) => {
     if (formData.images.length > 1) {
       const newImages = formData.images.filter((_, i) => i !== index);
       setFormData((prev) => ({ ...prev, images: newImages }));
+
+      const newPreviews = imagePreviews.filter((_, i) => i !== index);
+      setImagePreviews(newPreviews);
     }
   };
 
@@ -765,23 +852,58 @@ const ProductManagement = () => {
                 <div className="form-section full-width">
                   <h3>Product Images</h3>
                   {formData.images.map((image, index) => (
-                    <div key={index} className="image-input">
-                      <input
-                        type="url"
-                        value={image}
-                        onChange={(e) =>
-                          handleImageChange(index, e.target.value)
-                        }
-                        placeholder="Image URL"
-                      />
-                      {formData.images.length > 1 && (
-                        <button
-                          type="button"
-                          className="btn-remove"
-                          onClick={() => removeImageField(index)}
-                        >
-                          ✕
-                        </button>
+                    <div key={index} className="image-input-container">
+                      <div className="image-input-wrapper">
+                        <div className="image-input">
+                          <input
+                            type="url"
+                            value={image}
+                            onChange={(e) =>
+                              handleImageChange(index, e.target.value)
+                            }
+                            placeholder="Image URL or upload a file below"
+                          />
+                          {formData.images.length > 1 && (
+                            <button
+                              type="button"
+                              className="btn-remove"
+                              onClick={() => removeImageField(index)}
+                            >
+                              ✕
+                            </button>
+                          )}
+                        </div>
+                        <div className="file-upload-wrapper">
+                          <label
+                            htmlFor={`file-upload-${index}`}
+                            className="file-upload-label"
+                          >
+                            {uploadingImages[index] ? (
+                              <span>Uploading... ⏳</span>
+                            ) : (
+                              <span>📁 Choose File</span>
+                            )}
+                          </label>
+                          <input
+                            id={`file-upload-${index}`}
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => handleFileChange(index, e)}
+                            className="file-upload-input"
+                            disabled={uploadingImages[index]}
+                          />
+                        </div>
+                      </div>
+                      {imagePreviews[index] && (
+                        <div className="image-preview">
+                          <img
+                            src={imagePreviews[index]}
+                            alt={`Preview ${index + 1}`}
+                            onError={(e) => {
+                              e.target.style.display = "none";
+                            }}
+                          />
+                        </div>
                       )}
                     </div>
                   ))}
