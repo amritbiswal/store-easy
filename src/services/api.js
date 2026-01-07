@@ -141,7 +141,7 @@ export const updateProduct = async (id, productData) => {
 // Patch product (Admin) - partial update
 export const patchProduct = async (id, partialData) => {
   try {
-    const response = await axios.patch(
+    const response = await axios.put(
       `${API_URL}/products/${id}`,
       partialData
     );
@@ -294,7 +294,7 @@ export const getUserById = async (id) => {
 // Update user profile
 export const updateUserProfile = async (id, userData) => {
   try {
-    const response = await axios.patch(`${API_URL}/users/${id}`, userData);
+    const response = await axios.put(`${API_URL}/users/${id}`, userData);
     const { password, ...userWithoutPassword } = response.data;
     return userWithoutPassword;
   } catch (error) {
@@ -393,7 +393,7 @@ export const updateOrderStatus = async (id, status, trackingNumber = null) => {
       updateData.trackingNumber = trackingNumber;
     }
 
-    const response = await axios.patch(`${API_URL}/orders/${id}`, updateData);
+    const response = await axios.put(`${API_URL}/orders/${id}`, updateData);
     return response.data;
   } catch (error) {
     console.error("Error updating order status:", error);
@@ -404,7 +404,7 @@ export const updateOrderStatus = async (id, status, trackingNumber = null) => {
 // Update order (Admin)
 export const updateOrder = async (id, orderData) => {
   try {
-    const response = await axios.patch(`${API_URL}/orders/${id}`, {
+    const response = await axios.put(`${API_URL}/orders/${id}`, {
       ...orderData,
       updatedAt: new Date().toISOString(),
     });
@@ -787,7 +787,7 @@ export const createCoupon = async (couponData) => {
 // Update coupon (Admin)
 export const updateCoupon = async (id, couponData) => {
   try {
-    const response = await axios.patch(`${API_URL}/coupons/${id}`, couponData);
+    const response = await axios.put(`${API_URL}/coupons/${id}`, couponData);
     return response.data;
   } catch (error) {
     console.error("Error updating coupon:", error);
@@ -876,7 +876,7 @@ export const getInventoryByProductId = async (productId) => {
 // Update inventory
 export const updateInventory = async (id, inventoryData) => {
   try {
-    const response = await axios.patch(`${API_URL}/inventory/${id}`, {
+    const response = await axios.put(`${API_URL}/inventory/${id}`, {
       ...inventoryData,
       updatedAt: new Date().toISOString(),
     });
@@ -962,7 +962,7 @@ export const createStockOrder = async (orderData) => {
 // Update stock order status
 export const updateStockOrderStatus = async (id, status) => {
   try {
-    const response = await axios.patch(`${API_URL}/stockOrders/${id}`, {
+    const response = await axios.put(`${API_URL}/stockOrders/${id}`, {
       status,
     });
     return response.data;
@@ -1040,7 +1040,7 @@ export const getAdminNotifications = async () => {
 // Mark notification as read
 export const markNotificationAsRead = async (id) => {
   try {
-    const response = await axios.patch(`${API_URL}/notifications/${id}`, {
+    const response = await axios.put(`${API_URL}/notifications/${id}`, {
       isRead: true,
     });
     return response.data;
@@ -1061,7 +1061,7 @@ export const markAllNotificationsAsRead = async (
 
     await Promise.all(
       unread.map((n) =>
-        axios.patch(`${API_URL}/notifications/${n.id}`, { isRead: true })
+        axios.put(`${API_URL}/notifications/${n.id}`, { isRead: true })
       )
     );
 
@@ -1105,7 +1105,7 @@ export const getStoreInfo = async () => {
 // Update store info (Admin)
 export const updateStoreInfo = async (storeData) => {
   try {
-    const response = await axios.patch(`${API_URL}/store`, {
+    const response = await axios.put(`${API_URL}/store`, {
       ...storeData,
       updatedAt: new Date().toISOString(),
     });
