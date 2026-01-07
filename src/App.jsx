@@ -28,7 +28,7 @@ import Profile from "./pages/customer/Profile";
 import Favorites from "./pages/customer/Favorites";
 
 // Admin Pages
-import Dashboard from "./pages/admin/dashboard";
+import Dashboard from "./pages/admin/Dashboard";
 import ProductManagement from "./pages/admin/ProductManagement";
 import InventoryManagement from "./pages/admin/InventoryManagement";
 import OrderManagement from "./pages/admin/OrderManagement";
