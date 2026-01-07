@@ -16,6 +16,7 @@ const ProductList = () => {
 
   const [filters, setFilters] = useState({
     categories: [],
+    brands: [],
     priceRange: { min: 0, max: 500 },
     inStockOnly: false,
   });
@@ -54,6 +55,13 @@ const ProductList = () => {
     if (filters.categories.length > 0) {
       result = result.filter((product) =>
         filters.categories.includes(product.category.toLowerCase())
+      );
+    }
+
+    // Filter by brands
+    if (filters.brands.length > 0) {
+      result = result.filter((product) =>
+        filters.brands.includes(product.brand)
       );
     }
 

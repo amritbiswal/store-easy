@@ -16,11 +16,11 @@ const Checkout = () => {
     lastName: user?.lastName || "",
     email: user?.email || "",
     phone: user?.phone || "",
-    address: "",
+    address: user?.address?.street || "",
     apartment: "",
-    city: "",
-    zipCode: "",
-    country: "USA",
+    city: user?.address?.city || "",
+    zipCode: user?.address?.zipCode || "",
+    country: user?.address?.country || "USA",
   });
 
   const [errors, setErrors] = useState({});

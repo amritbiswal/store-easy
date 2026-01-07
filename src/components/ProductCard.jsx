@@ -1,8 +1,9 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useFavorites } from '../context/FavoritesContext';
 import './ProductCard.css';
 
 const ProductCard = ({ product }) => {
+  const navigate = useNavigate();
   const isInStock = product.totalStock > 0;
   const { isFavorite, toggleFavorite } = useFavorites();
   const favorited = isFavorite(product.id);
@@ -11,6 +12,16 @@ const ProductCard = ({ product }) => {
     e.preventDefault();
     e.stopPropagation();
     toggleFavorite(product.id);
+  };
+
+  const handleAddToCart = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!isInStock) return;
+
+    // Navigate to product detail page for size/color selection
+    navigate(`/products/${product.id}`);
   };
 
   return (
@@ -74,6 +85,31 @@ const ProductCard = ({ product }) => {
         {product.totalReviews > 0 && (
           <p className="product-reviews">{product.totalReviews} reviews</p>
         )}
+
+        <button
+          className={`add-to-cart-btn ${!isInStock ? 'disabled' : ''}`}
+          onClick={handleAddToCart}
+          disabled={!isInStock}
+        >
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M9 2L7.17 4H2v2h1.62l1.5 9.84C5.34 17.17 6.53 18 7.86 18H16c1.33 0 2.52-.83 2.88-2.16L21 7H5.38l-.28-2h13.9"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <circle cx="9" cy="21" r="1" fill="currentColor" />
+            <circle cx="16" cy="21" r="1" fill="currentColor" />
+          </svg>
+          {isInStock ? 'Add to Cart' : 'Out of Stock'}
+        </button>
       </div>
     </Link>
   );
