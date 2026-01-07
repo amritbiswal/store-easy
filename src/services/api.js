@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5005";
-
+// const API_URL = "http://localhost:5005";
+const API_URL = "https://json-server-backend-fml9.onrender.com";
 // ============================================
 // PRODUCTS
 // ============================================
