@@ -280,8 +280,8 @@ export const registerUser = async (userData) => {
 export const getUserById = async (id) => {
   try {
     const response = await axios.get(`${API_URL}/users/${id}`);
-    const { password, ...userWithoutPassword } = response.data;
-    return userWithoutPassword;
+    const { ...userCopy } = response.data;
+    return userCopy;
   } catch (error) {
     console.error("Error fetching user:", error);
     throw new Error("Error fetching user");
@@ -292,8 +292,8 @@ export const getUserById = async (id) => {
 export const updateUserProfile = async (id, userData) => {
   try {
     const response = await axios.put(`${API_URL}/users/${id}`, userData);
-    const { password, ...userWithoutPassword } = response.data;
-    return userWithoutPassword;
+    const { ...userCopy } = response.data;
+    return userCopy;
   } catch (error) {
     console.error("Error updating user:", error);
     throw new Error("Error updating user");
@@ -304,7 +304,7 @@ export const updateUserProfile = async (id, userData) => {
 export const getCustomers = async () => {
   try {
     const response = await axios.get(`${API_URL}/users?role=customer`);
-    return response.data.map(({ password, ...user }) => user);
+    return response.data.map(({ ...userCopy }) => userCopy);
   } catch (error) {
     console.error("Error fetching customers:", error);
     throw new Error("Error fetching customers");
