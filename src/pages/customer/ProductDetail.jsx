@@ -3,10 +3,12 @@ import { useParams, useNavigate } from "react-router-dom";
 import { getProductById, getProductReviews } from "../../services/api";
 import { useCart } from "../../context/CartContext";
 import { useFavorites } from "../../context/FavoritesContext";
+import { useAuth } from "../../context/AuthContext";
 import Loader from "../../components/Loader";
 import "./ProductDetail.css";
 
 const ProductDetail = () => {
+  const { user } = useAuth();
   const { id } = useParams();
   const navigate = useNavigate();
   const { addToCart } = useCart();
@@ -55,6 +57,10 @@ const ProductDetail = () => {
   }, [id]);
 
   const handleAddToCart = () => {
+    if (!user?.id) {
+      alert("Please login to add items to the cart");
+      return;
+    }
     if (!selectedSize) {
       alert("Please select a size");
       return;
@@ -80,25 +86,7 @@ const ProductDetail = () => {
   };
 
   const handleBuyNow = () => {
-    if (!selectedSize) {
-      alert("Please select a size");
-      return;
-    }
-
-    // Add to cart first
-    const cartItem = {
-      id: `${product.id}-${selectedSize}-${selectedColor}`,
-      productId: product.id,
-      name: product.name,
-      brand: product.brand,
-      price: product.price,
-      size: selectedSize,
-      color: selectedColor,
-      quantity: quantity,
-      thumbnail: product.thumbnail || product.images[0],
-    };
-
-    addToCart(cartItem);
+    handleAddToCart();
 
     // Then navigate to cart
     navigate("/cart");
@@ -182,15 +170,21 @@ const ProductDetail = () => {
                 <p className="product-brand">{product.brand}</p>
               </div>
               <button
-                className={`favorite-btn-detail ${isFavorite(product.id) ? 'favorited' : ''}`}
+                className={`favorite-btn-detail ${
+                  isFavorite(product.id) ? "favorited" : ""
+                }`}
                 onClick={handleFavoriteClick}
-                aria-label={isFavorite(product.id) ? 'Remove from favorites' : 'Add to favorites'}
+                aria-label={
+                  isFavorite(product.id)
+                    ? "Remove from favorites"
+                    : "Add to favorites"
+                }
               >
                 <svg
                   width="28"
                   height="28"
                   viewBox="0 0 24 24"
-                  fill={isFavorite(product.id) ? 'currentColor' : 'none'}
+                  fill={isFavorite(product.id) ? "currentColor" : "none"}
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
@@ -355,11 +349,15 @@ const ProductDetail = () => {
             <h2>Customer Reviews</h2>
             <div className="reviews-summary">
               <div className="average-rating">
-                <span className="rating-number">{product.rating.toFixed(1)}</span>
+                <span className="rating-number">
+                  {product.rating.toFixed(1)}
+                </span>
                 <div className="rating-stars-large">
-                  {'⭐'.repeat(Math.round(product.rating))}
+                  {"⭐".repeat(Math.round(product.rating))}
                 </div>
-                <span className="total-reviews">Based on {product.reviews} reviews</span>
+                <span className="total-reviews">
+                  Based on {product.reviews} reviews
+                </span>
               </div>
             </div>
           </div>
@@ -371,21 +369,25 @@ const ProductDetail = () => {
                   <div className="reviewer-info">
                     <span className="reviewer-name">{review.userName}</span>
                     {review.verified && (
-                      <span className="verified-badge">✓ Verified Purchase</span>
+                      <span className="verified-badge">
+                        ✓ Verified Purchase
+                      </span>
                     )}
                   </div>
                   <div className="review-rating">
-                    {'⭐'.repeat(review.rating)}
+                    {"⭐".repeat(review.rating)}
                   </div>
                 </div>
                 <p className="review-date">
-                  {new Date(review.createdAt).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
+                  {new Date(review.createdAt).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
                   })}
                 </p>
-                {review.title && <h4 className="review-title">{review.title}</h4>}
+                {review.title && (
+                  <h4 className="review-title">{review.title}</h4>
+                )}
                 <p className="review-comment">{review.comment}</p>
               </div>
             ))}

@@ -264,6 +264,7 @@ export const registerUser = async (userData) => {
       ...userData,
       role: "customer",
       favorites: [],
+      cartItems: [],
       createdAt: new Date().toISOString(),
     };
 

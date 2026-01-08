@@ -1,4 +1,13 @@
-import { createContext, useState, useContext, useMemo } from "react";
+import {
+  createContext,
+  useState,
+  useContext,
+  useMemo,
+  useEffect,
+  use,
+} from "react";
+import { useAuth } from "./AuthContext";
+import { getUserById, updateUserProfile } from "../services/api";
 
 const CartContext = createContext();
 
@@ -7,31 +16,72 @@ export const useCart = () => {
 };
 
 export const CartProvider = ({ children }) => {
+  const { user, updateUser } = useAuth();
   const [cartItems, setCartItems] = useState([]);
 
-  const addToCart = (product) => {
-    setCartItems((prevItems) => {
-      // Check if the item already exists in the cart
-      const existingItem = prevItems.find((item) => item.id === product.id);
+  // Load favorites when user logs in
+  useEffect(() => {
+    if (user?.id) {
+      fetchCartItems();
+    } else {
+      setCartItems([]);
+    }
+  }, [user]);
 
-      if (existingItem) {
-        // If it exists, increase the quantity
-        return prevItems.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + product.quantity }
-            : item
-        );
-      } else {
-        // If it doesn't exist, add it to the cart
-        return [...prevItems, product];
-      }
-    });
+  const fetchCartItems = async () => {
+    if (!user?.id) return;
+
+    try {
+      const userData = await getUserById(user.id);
+      setCartItems(userData.cartItems || []);
+    } catch (error) {
+      console.error("Error fetching cart items:", error);
+      setCartItems([]);
+    }
+  };
+
+  // Helper to persist cart for logged-in users
+  const persistCartItems = async (newCart) => {
+    if (!user?.id) return;
+
+    try {
+      // Fetch the latest user data to avoid overwriting other fields
+      const userData = await getUserById(user.id);
+      const { cartItems, ...rest } = userData; // Exclude old cartItems
+      const userBody = { ...rest, cartItems: newCart };
+
+      const response = await updateUserProfile(user.id, userBody);
+      updateUser(response);
+    } catch (error) {
+      console.error("Error updating cart items:", error);
+      // Revert on error
+      setCartItems(cartItems);
+      alert("Failed to update cart items. Please try again.");
+    }
+  };
+
+  const addToCart = (product) => {
+    if (!user?.id) return;
+    const newCartItems = [...cartItems];
+    const isItemExistsinCart = newCartItems.find(
+      (item) => item.id === product.id
+    );
+    if (isItemExistsinCart) {
+      isItemExistsinCart.quantity += product.quantity;
+    } else {
+      newCartItems.push(product);
+    }
+    setCartItems(newCartItems);
+    persistCartItems(newCartItems);
   };
 
   const removeFromCart = (productId) => {
-    setCartItems((prevItems) =>
-      prevItems.filter((item) => item.id !== productId)
+    const existingCartItems = [...cartItems];
+    const updatedCartItems = existingCartItems.filter(
+      (item) => item.id !== productId
     );
+    setCartItems(updatedCartItems);
+    persistCartItems(updatedCartItems);
   };
 
   const updateQuantity = (productId, newQuantity) => {
@@ -40,15 +90,17 @@ export const CartProvider = ({ children }) => {
       return;
     }
 
-    setCartItems((prevItems) =>
-      prevItems.map((item) =>
-        item.id === productId ? { ...item, quantity: newQuantity } : item
-      )
+    const existingCartItems = [...cartItems];
+    const updatedCartItems = existingCartItems.map((item) =>
+      item.id === productId ? { ...item, quantity: newQuantity } : item
     );
+    setCartItems(updatedCartItems);
+    persistCartItems(updatedCartItems);
   };
 
   const clearCart = () => {
     setCartItems([]);
+    persistCartItems([]);
   };
 
   // Calculate total amount using useMemo for performance
@@ -63,11 +115,12 @@ export const CartProvider = ({ children }) => {
     <CartContext.Provider
       value={{
         cartItems,
+        fetchCartItems,
         addToCart,
         removeFromCart,
         updateQuantity,
         clearCart,
-        totalAmount
+        totalAmount,
       }}
     >
       {children}

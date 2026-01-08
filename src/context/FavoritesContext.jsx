@@ -1,6 +1,5 @@
 import { createContext, useState, useEffect, useContext } from "react";
 import { useAuth } from "./AuthContext";
-import { API_URL } from "../config/apiConfig";
 import { getUserById, updateUserProfile } from "../services/api";
 export const FavoritesContext = createContext();
 

@@ -1,7 +1,7 @@
-import { useNavigate } from 'react-router-dom';
-import { useCart } from '../../context/CartContext';
-import CartItem from '../../components/CartItem';
-import './Cart.css';
+import { useNavigate } from "react-router-dom";
+import { useCart } from "../../context/CartContext";
+import CartItem from "../../components/CartItem";
+import "./Cart.css";
 
 const Cart = () => {
   const { cartItems, totalAmount, removeFromCart, updateQuantity } = useCart();
@@ -12,12 +12,17 @@ const Cart = () => {
   return (
     <div className="cart-page">
       <div className="cart-container">
-        <h1 className="cart-title">Shopping Cart ({itemCount} {itemCount > 1 ? 'items' : 'item'})</h1>
+        <h1 className="cart-title">
+          Shopping Cart ({itemCount} {itemCount > 1 ? "items" : "item"})
+        </h1>
 
         {cartItems.length === 0 ? (
           <div className="cart-empty">
             <p>Your cart is empty.</p>
-            <button className="continue-shopping-btn" onClick={() => navigate('/products')}>
+            <button
+              className="continue-shopping-btn"
+              onClick={() => navigate("/products")}
+            >
               Continue Shopping
             </button>
           </div>
@@ -26,7 +31,7 @@ const Cart = () => {
             {/* Left side - Cart items */}
             <div className="cart-items-section">
               <div className="cart-items">
-                {cartItems.map(item => (
+                {cartItems.map((item) => (
                   <CartItem
                     key={item.id}
                     item={item}
@@ -35,7 +40,10 @@ const Cart = () => {
                   />
                 ))}
               </div>
-              <button className="continue-shopping-link" onClick={() => navigate('/products')}>
+              <button
+                className="continue-shopping-link"
+                onClick={() => navigate("/products")}
+              >
                 ← Continue Shopping
               </button>
             </div>
@@ -46,8 +54,12 @@ const Cart = () => {
                 <h2 className="summary-title">Summary</h2>
 
                 <div className="summary-line">
-                  <span>{itemCount} {itemCount > 1 ? 'items' : 'item'}</span>
-                  <span className="summary-amount">€{totalAmount.toFixed(2)}</span>
+                  <span>
+                    {itemCount} {itemCount > 1 ? "items" : "item"}
+                  </span>
+                  <span className="summary-amount">
+                    €{totalAmount.toFixed(2)}
+                  </span>
                 </div>
 
                 <div className="summary-line">
@@ -59,10 +71,15 @@ const Cart = () => {
 
                 <div className="summary-line total">
                   <span>Estimated Total</span>
-                  <span className="summary-total">€{totalAmount.toFixed(2)}</span>
+                  <span className="summary-total">
+                    €{totalAmount.toFixed(2)}
+                  </span>
                 </div>
 
-                <button className="checkout-btn" onClick={() => navigate('/checkout')}>
+                <button
+                  className="checkout-btn"
+                  onClick={() => navigate("/checkout")}
+                >
                   Proceed to Checkout
                 </button>
 
@@ -71,10 +88,22 @@ const Cart = () => {
                 </p>
 
                 <div className="payment-methods">
-                  <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal" />
-                  <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png" alt="Visa" />
-                  <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" />
-                  <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/American_Express_logo_%282018%29.svg" alt="Amex" />
+                  <img
+                    src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg"
+                    alt="PayPal"
+                  />
+                  <img
+                    src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png"
+                    alt="Visa"
+                  />
+                  <img
+                    src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg"
+                    alt="Mastercard"
+                  />
+                  <img
+                    src="https://upload.wikimedia.org/wikipedia/commons/f/fa/American_Express_logo_%282018%29.svg"
+                    alt="Amex"
+                  />
                 </div>
               </div>
             </div>

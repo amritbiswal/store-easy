@@ -13,21 +13,6 @@ const Favorites = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchFavoriteProducts = async () => {
-      try {
-        setLoading(true);
-        const allProducts = await getProducts();
-        const filteredProducts = allProducts.filter((product) =>
-          favorites.includes(product.id)
-        );
-        setFavoriteProducts(filteredProducts);
-      } catch (error) {
-        console.error("Error fetching favorite products:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     if (user && favorites.length > 0) {
       fetchFavoriteProducts();
     } else {
@@ -35,6 +20,21 @@ const Favorites = () => {
       setFavoriteProducts([]);
     }
   }, [favorites, user]);
+
+  const fetchFavoriteProducts = async () => {
+    try {
+      setLoading(true);
+      const allProducts = await getProducts();
+      const filteredProducts = allProducts.filter((product) =>
+        favorites.includes(product.id)
+      );
+      setFavoriteProducts(filteredProducts);
+    } catch (error) {
+      console.error("Error fetching favorite products:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   if (loading) {
     return (
