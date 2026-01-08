@@ -20,6 +20,7 @@ const ProductList = () => {
     priceRange: { min: 0, max: 500 },
     inStockOnly: false,
   });
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -50,6 +51,16 @@ const ProductList = () => {
   useEffect(() => {
     // Apply filters whenever filters or products change
     let result = [...products];
+
+    // Filter by search query (name or brand)
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      result = result.filter(
+        (product) =>
+          product.name.toLowerCase().includes(query) ||
+          product.brand.toLowerCase().includes(query)
+      );
+    }
 
     // Filter by categories
     if (filters.categories.length > 0) {
@@ -97,7 +108,7 @@ const ProductList = () => {
     }
 
     setFilteredProducts(result);
-  }, [filters, products, sortBy]);
+  }, [filters, products, sortBy, searchQuery]);
 
   const handleFilterChange = (newFilters) => {
     setFilters(newFilters);
@@ -147,6 +158,60 @@ const ProductList = () => {
               <div className="header-info">
                 <h1>Men's Sneakers ({filteredProducts.length})</h1>
               </div>
+            </div>
+
+            <div className="search-bar-container">
+              <svg
+                className="search-icon"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  cx="11"
+                  cy="11"
+                  r="8"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                />
+                <path
+                  d="M21 21l-4.35-4.35"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                />
+              </svg>
+              <input
+                type="text"
+                className="search-input"
+                placeholder="Search products by name or brand..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              {searchQuery && (
+                <button
+                  className="clear-search-btn"
+                  onClick={() => setSearchQuery("")}
+                  aria-label="Clear search"
+                >
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M18 6L6 18M6 6l12 12"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                </button>
+              )}
             </div>
 
             <div className="products-controls">

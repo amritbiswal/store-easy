@@ -79,6 +79,31 @@ const ProductDetail = () => {
     setTimeout(() => setAddedToCart(false), 2000);
   };
 
+  const handleBuyNow = () => {
+    if (!selectedSize) {
+      alert("Please select a size");
+      return;
+    }
+
+    // Add to cart first
+    const cartItem = {
+      id: `${product.id}-${selectedSize}-${selectedColor}`,
+      productId: product.id,
+      name: product.name,
+      brand: product.brand,
+      price: product.price,
+      size: selectedSize,
+      color: selectedColor,
+      quantity: quantity,
+      thumbnail: product.thumbnail || product.images[0],
+    };
+
+    addToCart(cartItem);
+
+    // Then navigate to cart
+    navigate("/cart");
+  };
+
   const getAvailableStock = () => {
     if (!product || !selectedSize) return 0;
     const sizeOption = product.sizes.find((s) => s.size === selectedSize);
@@ -314,8 +339,8 @@ const ProductDetail = () => {
             </button>
             <button
               className="buy-now-btn"
-              onClick={() => navigate("/cart")}
-              disabled={!isInStock}
+              onClick={handleBuyNow}
+              disabled={!isInStock || !selectedSize}
             >
               Buy Now
             </button>

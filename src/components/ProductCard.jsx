@@ -91,24 +91,7 @@ const ProductCard = ({ product }) => {
           onClick={handleAddToCart}
           disabled={!isInStock}
         >
-          <svg
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M9 2L7.17 4H2v2h1.62l1.5 9.84C5.34 17.17 6.53 18 7.86 18H16c1.33 0 2.52-.83 2.88-2.16L21 7H5.38l-.28-2h13.9"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <circle cx="9" cy="21" r="1" fill="currentColor" />
-            <circle cx="16" cy="21" r="1" fill="currentColor" />
-          </svg>
-          {isInStock ? 'Add to Cart' : 'Out of Stock'}
+          {isInStock ? 'View Details' : 'Out of Stock'}
         </button>
       </div>
     </Link>
